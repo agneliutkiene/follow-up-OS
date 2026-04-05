@@ -14,6 +14,7 @@ import type { ThreadType } from "@/lib/types";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 import { createThreadAction, markDoneAction, snoozeAction } from "./actions";
+import { NewThreadDialog } from "./NewThreadDialog";
 
 type InboxTab = "due-today" | "overdue" | "upcoming" | "closed";
 
@@ -47,17 +48,6 @@ function toDraftPreview(value: string | null) {
   }
 
   return value.length > 84 ? `${value.slice(0, 84)}...` : value;
-}
-
-function localDateInputValue(date: Date) {
-  const padded = (n: number) => n.toString().padStart(2, "0");
-  const year = date.getFullYear();
-  const month = padded(date.getMonth() + 1);
-  const day = padded(date.getDate());
-  const hours = padded(date.getHours());
-  const minutes = padded(date.getMinutes());
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
 function getBuckets(rows: ThreadRow[]) {
@@ -139,7 +129,7 @@ type InboxPageProps = {
 };
 
 export default async function InboxPage({ searchParams }: InboxPageProps) {
-  const user = await requireUser();
+  await requireUser();
   const supabase = await createServerSupabaseClient();
 
   const [{ data: threadData, error: threadsError }, { data: contactData, error: contactsError }] =
@@ -178,115 +168,45 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-        <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+      <section className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-[var(--ink)]">
               Inbox
             </h1>
             <p className="text-sm text-[var(--ink-muted)]">
-              Signed in as {user.email}. Keep every open thread attached to a
-              next follow-up.
+              Keep every open thread attached to a clear next follow-up.
             </p>
           </div>
+          <NewThreadDialog
+            contacts={contacts}
+            preselectedContactId={preselectedContactId}
+            createThreadAction={createThreadAction}
+          />
         </div>
 
         {errorMessage ? (
-          <p className="mb-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
             {errorMessage}
           </p>
         ) : null}
         {infoMessage ? (
-          <p className="mb-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+          <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
             {infoMessage}
           </p>
         ) : null}
-
-        <form action={createThreadAction} className="grid gap-3 rounded-2xl border border-[var(--line)] bg-white p-4 md:grid-cols-2">
-          <input type="hidden" name="status" value="open" />
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Contact</span>
-            <select
-              name="contact_id"
-              required
-              defaultValue={preselectedContactId ?? ""}
-              className="w-full rounded-xl border border-[var(--line)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            >
-              <option value="" disabled>
-                Select a contact
-              </option>
-              {contacts.map((contact) => (
-                <option key={contact.id} value={contact.id}>
-                  {contact.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Thread title</span>
-            <input
-              required
-              name="title"
-              placeholder="Invoice #2045"
-              className="w-full rounded-xl border border-[var(--line)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
-
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Type</span>
-            <select
-              name="type"
-              defaultValue="lead"
-              className="w-full rounded-xl border border-[var(--line)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            >
-              <option value="lead">Lead</option>
-              <option value="invoice">Invoice</option>
-              <option value="meeting">Meeting</option>
-              <option value="other">Other</option>
-            </select>
-          </label>
-
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Next follow-up</span>
-            <input
-              required
-              type="datetime-local"
-              name="next_followup_at"
-              defaultValue={localDateInputValue(addDays(new Date(), 1))}
-              className="w-full rounded-xl border border-[var(--line)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
-
-          <label className="space-y-1 text-sm md:col-span-2">
-            <span className="text-[var(--ink-muted)]">Next message draft</span>
-            <textarea
-              name="next_message_draft"
-              rows={3}
-              placeholder="Optional draft for your next follow-up"
-              className="w-full rounded-xl border border-[var(--line)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
-
-          <button
-            type="submit"
-            className="w-fit rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white hover:opacity-95"
-          >
-            Create thread
-          </button>
-        </form>
       </section>
 
-      <section className="space-y-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
+      <section className="space-y-4 rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5">
         <div className="flex flex-wrap items-center gap-2">
           {(Object.keys(tabLabels) as InboxTab[]).map((tab) => (
             <Link
               key={tab}
               href={`/inbox?tab=${tab}`}
-              className={`rounded-full border px-3 py-1.5 text-sm ${
+              className={`rounded-md border px-3 py-1.5 text-sm font-medium ${
                 activeTab === tab
-                  ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--ink)]"
-                  : "border-[var(--line)] bg-white text-[var(--ink-muted)]"
+                  ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--accent)]"
+                  : "border-[var(--line)] bg-[var(--surface)] text-[var(--ink-muted)] hover:text-[var(--ink)]"
               }`}
             >
               {tabLabels[tab]} ({buckets[tab].length})
@@ -294,32 +214,32 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
           ))}
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full border-separate border-spacing-y-2 text-sm">
-            <thead>
-              <tr className="text-left text-[var(--ink-muted)]">
-                <th className="px-3">Contact</th>
-                <th className="px-3">Thread</th>
-                <th className="px-3">Next follow-up</th>
-                <th className="px-3">Status</th>
-                <th className="px-3">Draft preview</th>
-                <th className="px-3">Actions</th>
+        <div className="overflow-x-auto rounded-lg border border-[var(--line)]">
+          <table className="min-w-full text-sm">
+            <thead className="bg-[var(--surface-muted)] text-left text-[var(--ink-muted)]">
+              <tr>
+                <th className="px-4 py-3 font-medium">Contact</th>
+                <th className="px-4 py-3 font-medium">Thread</th>
+                <th className="px-4 py-3 font-medium">Next follow-up</th>
+                <th className="px-4 py-3 font-medium">Status</th>
+                <th className="px-4 py-3 font-medium">Draft preview</th>
+                <th className="px-4 py-3 font-medium">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-[var(--line)] bg-[var(--surface)]">
               {activeRows.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="rounded-xl border border-dashed border-[var(--line)] bg-white px-3 py-6 text-center text-[var(--ink-muted)]">
+                  <td colSpan={6} className="px-4 py-8 text-center text-[var(--ink-muted)]">
                     No threads in this bucket.
                   </td>
                 </tr>
               ) : (
                 activeRows.map((thread) => (
-                  <tr key={thread.id} className="rounded-xl border border-[var(--line)] bg-white align-top">
-                    <td className="rounded-l-xl px-3 py-3 font-medium">
+                  <tr key={thread.id} className="align-top">
+                    <td className="px-4 py-3 font-medium text-[var(--ink)]">
                       {thread.contact?.name ?? "Unknown"}
                     </td>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-3">
                       <p className="font-medium text-[var(--ink)]">{thread.title}</p>
                       <p className="font-mono text-xs uppercase tracking-wide text-[var(--ink-muted)]">
                         {thread.type}
@@ -328,30 +248,30 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
                         Last touched {format(parseISO(thread.last_touched_at), "PPp")}
                       </p>
                     </td>
-                    <td className="px-3 py-3 text-[var(--ink-muted)]">
+                    <td className="px-4 py-3 text-[var(--ink-muted)]">
                       {thread.next_followup_at
                         ? format(parseISO(thread.next_followup_at), "PPp")
                         : "-"}
                     </td>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-3">
                       <span
-                        className={`rounded-full px-2 py-1 text-xs font-medium ${
+                        className={`rounded-md px-2 py-1 text-xs font-medium ${
                           thread.status === "closed"
-                            ? "bg-zinc-200 text-zinc-700"
-                            : "bg-[var(--accent-soft)] text-[var(--ink)]"
+                            ? "bg-slate-200 text-slate-700"
+                            : "bg-[var(--accent-soft)] text-[var(--accent)]"
                         }`}
                       >
                         {thread.status}
                       </span>
                     </td>
-                    <td className="max-w-xs px-3 py-3 text-[var(--ink-muted)]">
+                    <td className="max-w-xs px-4 py-3 text-[var(--ink-muted)]">
                       {toDraftPreview(thread.next_message_draft)}
                     </td>
-                    <td className="rounded-r-xl px-3 py-3">
+                    <td className="px-4 py-3">
                       <div className="flex flex-wrap items-center gap-2">
                         <Link
                           href={`/threads/${thread.id}`}
-                          className="rounded-lg border border-[var(--line)] px-2.5 py-1.5 text-xs hover:bg-[var(--surface-muted)]"
+                          className="rounded-md border border-[var(--line)] px-2.5 py-1.5 text-xs text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
                         >
                           Open
                         </Link>
@@ -361,7 +281,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
                               <input type="hidden" name="thread_id" value={thread.id} />
                               <button
                                 type="submit"
-                                className="rounded-lg border border-[var(--line)] px-2.5 py-1.5 text-xs hover:bg-[var(--surface-muted)]"
+                                className="rounded-md border border-[var(--line)] px-2.5 py-1.5 text-xs text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
                               >
                                 Mark done
                               </button>
@@ -371,7 +291,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
                               <input type="hidden" name="days" value="2" />
                               <button
                                 type="submit"
-                                className="rounded-lg border border-[var(--line)] px-2.5 py-1.5 text-xs hover:bg-[var(--surface-muted)]"
+                                className="rounded-md border border-[var(--line)] px-2.5 py-1.5 text-xs text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
                               >
                                 Snooze 2d
                               </button>
@@ -381,7 +301,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
                               <input type="hidden" name="days" value="7" />
                               <button
                                 type="submit"
-                                className="rounded-lg border border-[var(--line)] px-2.5 py-1.5 text-xs hover:bg-[var(--surface-muted)]"
+                                className="rounded-md border border-[var(--line)] px-2.5 py-1.5 text-xs text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
                               >
                                 Snooze 7d
                               </button>

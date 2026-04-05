@@ -90,8 +90,8 @@
   justify-content: center;
   height: 38px;
   padding: 0 16px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  border: 1px solid rgba(74, 86, 158, 0.55);
   background: #0b0f1a;
   color: rgba(255, 255, 255, 0.92);
   font-size: 12px;
@@ -151,10 +151,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 44px;
+  min-width: 132px;
+  padding: 0 18px;
+  border-radius: 2px;
+  border: 1px solid rgba(74, 86, 158, 0.55);
   background: #0b0f1a;
   color: rgba(255, 255, 255, 0.92);
   font-size: 13px;
@@ -221,8 +222,8 @@
 .featurePanel {
   position: relative;
   overflow: hidden;
-  border-radius: 17px;
-  border: 1px solid rgba(129, 111, 255, 0.26);
+  border-radius: 2px;
+  border: 1px solid rgba(74, 86, 158, 0.45);
   background: linear-gradient(180deg, #04060c 0%, #03050a 100%);
   padding: 34px 32px 32px;
   box-shadow:
@@ -289,7 +290,7 @@
 .numbersStrip {
   margin: 30px -32px -32px;
   border-top: 1px solid rgba(120, 104, 225, 0.35);
-  border-radius: 0 0 16px 16px;
+  border-radius: 0;
   background: linear-gradient(180deg, #1b0f3f 0%, #1a0e3a 100%);
   padding: 22px 32px;
 }
@@ -395,7 +396,7 @@
 
 .tableActionButton {
   height: 30px;
-  border-radius: 6px;
+  border-radius: 2px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: #0a0b10;
   color: rgba(255, 255, 255, 0.92);
@@ -520,7 +521,7 @@
   align-items: center;
   justify-content: center;
   height: 44px;
-  border-radius: 8px;
+  border-radius: 2px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: #0b0f1a;
   color: #f3f5ff;

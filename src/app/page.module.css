@@ -214,17 +214,20 @@
 .featurePanelWrap {
   position: relative;
   z-index: 4;
-  padding-bottom: 50px;
+  width: min(100%, 1320px);
+  padding-bottom: 64px;
 }
 
 .featurePanel {
   position: relative;
   overflow: hidden;
   border-radius: 17px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #070a12;
-  padding: 32px;
-  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.58);
+  border: 1px solid rgba(129, 111, 255, 0.26);
+  background: linear-gradient(180deg, #04060c 0%, #03050a 100%);
+  padding: 34px 32px 32px;
+  box-shadow:
+    0 44px 120px rgba(1, 2, 8, 0.72),
+    inset 0 0 0 1px rgba(95, 88, 170, 0.14);
 }
 
 .featurePanel::after {
@@ -233,14 +236,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 7px;
-  background: linear-gradient(90deg, rgba(120, 80, 255, 0.35), rgba(80, 160, 255, 0.25));
+  height: 1px;
+  background: rgba(140, 120, 255, 0.2);
 }
 
 .featuresGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: 28px 40px;
 }
 
 .featureItem {
@@ -254,12 +257,12 @@
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  border: 1px solid rgba(80, 148, 255, 0.35);
+  border: 1px solid rgba(30, 132, 255, 0.45);
   background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: rgba(120, 180, 255, 0.95);
+  color: #1b86ff;
 }
 
 .featureIconSvg {
@@ -269,7 +272,7 @@
 
 .featureTitle {
   margin: 12px 0 0;
-  color: #f3f5ff;
+  color: #f4f7ff;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -277,53 +280,53 @@
 
 .featureDescription {
   margin: 8px 0 0;
-  color: #bcc4e4;
+  color: #8f9ac3;
   font-size: 13px;
   line-height: 1.55;
-  max-width: 270px;
+  max-width: 320px;
 }
 
 .numbersStrip {
-  margin-top: 24px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #0b1020;
-  padding: 18px;
+  margin: 30px -32px -32px;
+  border-top: 1px solid rgba(120, 104, 225, 0.35);
+  border-radius: 0 0 16px 16px;
+  background: linear-gradient(180deg, #1b0f3f 0%, #1a0e3a 100%);
+  padding: 22px 32px;
 }
 
 .numbersLabel {
   margin: 0;
-  color: #929cc1;
-  font-size: 11px;
+  color: #d6cff9;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.11em;
 }
 
 .metricsGrid {
-  margin-top: 12px;
+  margin-top: 14px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 22px;
 }
 
 .metricCard {
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
-  padding: 12px 13px;
+  border: none;
+  background: transparent;
+  padding: 0;
 }
 
 .metricValue {
   margin: 0;
-  color: #f3f5ff;
-  font-size: 17px;
-  font-weight: 600;
+  color: #ffffff;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1;
+  font-weight: 700;
 }
 
 .metricLabel {
-  margin: 4px 0 0;
-  color: #9ca7cf;
+  margin: 6px 0 0;
+  color: #a8a1da;
   font-size: 12px;
 }
 

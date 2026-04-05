@@ -14,7 +14,7 @@ export function TableWrapper({
   return (
     <div
       className={cn(
-        "overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--border)] bg-[rgba(15,23,42,0.82)]",
+        "overflow-x-auto rounded-[var(--radius-lg)] bg-[rgba(15,23,42,0.82)]",
         className,
       )}
       {...props}
@@ -47,10 +47,7 @@ export function TableBody({
 }: HTMLAttributes<HTMLTableSectionElement>) {
   return (
     <tbody
-      className={cn(
-        "divide-y divide-[var(--border)] text-[var(--text)]",
-        className,
-      )}
+      className={cn("text-[var(--text)]", className)}
       {...props}
     />
   );

@@ -349,7 +349,7 @@
 .tableCard {
   margin-top: 22px;
   border-radius: 14px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: none;
   background: transparent;
   box-shadow: none;
 }

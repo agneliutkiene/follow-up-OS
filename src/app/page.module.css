@@ -27,8 +27,9 @@
 .pinkA {
   flex: 0 0 14.38%;
   background:
-    radial-gradient(circle at top left, rgba(55, 114, 237, 0.55) 0%, rgba(55, 114, 237, 0) 55%),
-    linear-gradient(180deg, #d3adf0 0%, #f5cef8 100%);
+    radial-gradient(circle at 14% 8%, rgba(55, 114, 237, 0.8) 0%, rgba(55, 114, 237, 0) 48%),
+    radial-gradient(circle at 62% 88%, rgba(202, 171, 255, 0.35) 0%, rgba(202, 171, 255, 0) 64%),
+    linear-gradient(180deg, #05070f 0%, #1c2350 26%, #5f66bc 58%, #aa9bed 100%);
   align-items: center;
 }
 

@@ -1,7 +1,14 @@
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
+import { Textarea } from "@/components/ui/Textarea";
 import { requireUser } from "@/lib/auth";
 import type { ThreadType, Touch } from "@/lib/types";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
@@ -50,6 +57,11 @@ type ThreadQueryDetails = Omit<ThreadDetails, "contact"> & {
     | null;
 };
 
+type ThreadPageProps = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string; message?: string }>;
+};
+
 function localDateInputValue(iso: string | null) {
   if (!iso) {
     return "";
@@ -67,10 +79,25 @@ function localDateInputValue(iso: string | null) {
   return `${year}-${month}-${day}T${hour}:${minute}`;
 }
 
-type ThreadPageProps = {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ error?: string; message?: string }>;
-};
+function Notice({ tone, text }: { tone: "error" | "success"; text: string }) {
+  if (tone === "error") {
+    return (
+      <p className="rounded-[var(--radius-md)] border border-[rgba(239,68,68,0.35)] bg-[rgba(239,68,68,0.14)] px-3 py-2 text-sm text-[#fca5a5]">
+        {text}
+      </p>
+    );
+  }
+
+  return (
+    <p className="rounded-[var(--radius-md)] border border-[rgba(16,185,129,0.35)] bg-[rgba(16,185,129,0.12)] px-3 py-2 text-sm text-[#86efac]">
+      {text}
+    </p>
+  );
+}
+
+function FieldLabel({ children }: { children: ReactNode }) {
+  return <span className="text-sm text-[var(--muted)]">{children}</span>;
+}
 
 export default async function ThreadPage({ params, searchParams }: ThreadPageProps) {
   await requireUser();
@@ -113,256 +140,237 @@ export default async function ThreadPage({ params, searchParams }: ThreadPagePro
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--ink-muted)]">
-            Thread Detail
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+            Thread detail
           </p>
-          <h1 className="text-2xl font-semibold tracking-tight">{thread.title}</h1>
+          <h1 className="mt-1 text-2xl font-semibold tracking-tight text-[var(--text)]">
+            {thread.title}
+          </h1>
+          <p className="mt-2 text-sm text-[var(--muted)]">
+            Keep this thread aligned to the next concrete action.
+          </p>
         </div>
 
         <Link
           href="/inbox"
-          className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-sm hover:bg-[var(--surface-muted)]"
+          className="inline-flex h-10 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-2)] px-4 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
         >
           Back to inbox
         </Link>
       </div>
 
-      {query.error ? (
-        <p className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-          {query.error}
-        </p>
-      ) : null}
-      {query.message ? (
-        <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-          {query.message}
-        </p>
-      ) : null}
+      {query.error ? <Notice tone="error" text={query.error} /> : null}
+      {query.message ? <Notice tone="success" text={query.message} /> : null}
 
-      <section className="grid gap-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 md:grid-cols-2">
-        <div>
-          <p className="text-sm text-[var(--ink-muted)]">Contact</p>
-          <p className="text-lg font-semibold">{thread.contact?.name ?? "Unknown"}</p>
-          <p className="mt-1 text-sm text-[var(--ink-muted)]">
-            {thread.contact?.email ?? "No email"}
-            {thread.contact?.x_handle ? ` · ${thread.contact.x_handle}` : ""}
-          </p>
-          {thread.contact?.notes ? (
-            <p className="mt-2 text-sm text-[var(--ink-muted)]">{thread.contact.notes}</p>
-          ) : null}
-        </div>
-        <div className="space-y-1 text-sm text-[var(--ink-muted)]">
-          <p>
-            Status: <span className="font-medium text-[var(--ink)]">{thread.status}</span>
-          </p>
-          <p>
-            Type: <span className="font-medium text-[var(--ink)]">{thread.type}</span>
-          </p>
-          <p>
-            Last touched: {format(parseISO(thread.last_touched_at), "PPp")}
-          </p>
-          <p>Created: {format(parseISO(thread.created_at), "PPp")}</p>
-        </div>
-      </section>
-
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">Edit thread</h2>
-          <form action={generateDraftAction}>
-            <input type="hidden" name="thread_id" value={thread.id} />
-            <button
-              type="submit"
-              className="rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm hover:bg-[var(--surface-muted)]"
-            >
-              Generate draft
-            </button>
-          </form>
-        </div>
-
-        <form action={updateThreadAction} className="grid gap-3 md:grid-cols-2">
-          <input type="hidden" name="thread_id" value={thread.id} />
-
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Title</span>
-            <input
-              required
-              name="title"
-              defaultValue={thread.title}
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
-
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Type</span>
-            <select
-              name="type"
-              defaultValue={thread.type}
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            >
-              <option value="lead">Lead</option>
-              <option value="invoice">Invoice</option>
-              <option value="meeting">Meeting</option>
-              <option value="other">Other</option>
-            </select>
-          </label>
-
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Status</span>
-            <select
-              name="status"
-              defaultValue={thread.status}
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            >
-              <option value="open">Open</option>
-              <option value="closed">Closed</option>
-            </select>
-          </label>
-
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Next follow-up</span>
-            <input
-              name="next_followup_at"
-              type="datetime-local"
-              defaultValue={localDateInputValue(thread.next_followup_at)}
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
-
-          <label className="space-y-1 text-sm md:col-span-2">
-            <span className="text-[var(--ink-muted)]">Next message draft</span>
-            <textarea
-              name="next_message_draft"
-              defaultValue={thread.next_message_draft ?? ""}
-              rows={4}
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
-
-          <button
-            type="submit"
-            className="w-fit rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white hover:opacity-95"
-          >
-            Save changes
-          </button>
-        </form>
-      </section>
-
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-        <h2 className="mb-3 text-lg font-semibold">Mark follow-up done</h2>
-        <p className="mb-3 text-sm text-[var(--ink-muted)]">
-          Rule enforced: either set next follow-up date or close the thread.
-        </p>
-
-        <form action={markFollowupDoneAction} className="grid gap-3 md:grid-cols-2">
-          <input type="hidden" name="thread_id" value={thread.id} />
-
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Next follow-up date</span>
-            <input
-              type="datetime-local"
-              name="next_followup_at"
-              defaultValue={localDateInputValue(thread.next_followup_at)}
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
-
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Next message draft (optional)</span>
-            <input
-              name="next_message_draft"
-              defaultValue={thread.next_message_draft ?? ""}
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
-
-          <div className="flex flex-wrap items-center gap-2 md:col-span-2">
-            <button
-              type="submit"
-              name="mode"
-              value="reschedule"
-              className="rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm hover:bg-[var(--surface-muted)]"
-            >
-              Mark done + set next follow-up
-            </button>
-            <button
-              type="submit"
-              name="mode"
-              value="close"
-              className="rounded-xl bg-[var(--accent)] px-3 py-2 text-sm font-medium text-white hover:opacity-95"
-            >
-              Mark done + close thread
-            </button>
+      <Card>
+        <CardHeader className="grid gap-4 md:grid-cols-2">
+          <div>
+            <CardTitle className="text-base">{thread.contact?.name ?? "Unknown contact"}</CardTitle>
+            <CardDescription className="mt-1">
+              {thread.contact?.email ?? "No email"}
+              {thread.contact?.x_handle ? ` · ${thread.contact.x_handle}` : ""}
+            </CardDescription>
+            {thread.contact?.notes ? (
+              <p className="mt-3 text-sm text-[var(--muted)]">{thread.contact.notes}</p>
+            ) : null}
           </div>
-        </form>
-      </section>
 
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-        <h2 className="mb-3 text-lg font-semibold">Add touch</h2>
+          <div className="space-y-2 text-sm text-[var(--muted)]">
+            <p className="flex items-center gap-2">
+              <span>Status</span>
+              <Badge variant={thread.status === "closed" ? "muted" : "default"}>{thread.status}</Badge>
+            </p>
+            <p className="flex items-center gap-2">
+              <span>Type</span>
+              <Badge variant="muted">{thread.type}</Badge>
+            </p>
+            <p>Last touched: {format(parseISO(thread.last_touched_at), "PPp")}</p>
+            <p>Created: {format(parseISO(thread.created_at), "PPp")}</p>
+          </div>
+        </CardHeader>
+      </Card>
 
-        <form action={addTouchAction} className="grid gap-3 md:grid-cols-2">
-          <input type="hidden" name="thread_id" value={thread.id} />
+      <Card>
+        <CardHeader className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <CardTitle className="text-base">Edit thread</CardTitle>
+              <CardDescription className="mt-1">
+                Open threads must keep a next follow-up date.
+              </CardDescription>
+            </div>
+            <form action={generateDraftAction}>
+              <input type="hidden" name="thread_id" value={thread.id} />
+              <Button type="submit" variant="secondary" size="sm">
+                Generate draft
+              </Button>
+            </form>
+          </div>
 
-          <label className="space-y-1 text-sm md:col-span-2">
-            <span className="text-[var(--ink-muted)]">Note</span>
-            <textarea
-              required
-              name="body"
-              rows={3}
-              placeholder="Called and confirmed they will reply tomorrow."
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
+          <form action={updateThreadAction} className="grid gap-3 md:grid-cols-2">
+            <input type="hidden" name="thread_id" value={thread.id} />
 
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Update next follow-up (optional)</span>
-            <input
-              type="datetime-local"
-              name="next_followup_at"
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
+            <label className="space-y-1.5">
+              <FieldLabel>Title</FieldLabel>
+              <Input required name="title" defaultValue={thread.title} />
+            </label>
 
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Update draft (optional)</span>
-            <input
-              name="next_message_draft"
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
+            <label className="space-y-1.5">
+              <FieldLabel>Type</FieldLabel>
+              <Select name="type" defaultValue={thread.type}>
+                <option value="lead">Lead</option>
+                <option value="invoice">Invoice</option>
+                <option value="meeting">Meeting</option>
+                <option value="other">Other</option>
+              </Select>
+            </label>
 
-          <button
-            type="submit"
-            className="w-fit rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm hover:bg-[var(--surface-muted)]"
-          >
-            Add touch
-          </button>
-        </form>
-      </section>
+            <label className="space-y-1.5">
+              <FieldLabel>Status</FieldLabel>
+              <Select name="status" defaultValue={thread.status}>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+              </Select>
+            </label>
 
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-        <h2 className="mb-3 text-lg font-semibold">Activity log</h2>
+            <label className="space-y-1.5">
+              <FieldLabel>Next follow-up</FieldLabel>
+              <Input
+                name="next_followup_at"
+                type="datetime-local"
+                defaultValue={localDateInputValue(thread.next_followup_at)}
+              />
+            </label>
 
-        {touches.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-[var(--line)] bg-white px-3 py-6 text-sm text-[var(--ink-muted)]">
-            No touches yet.
-          </p>
-        ) : (
-          <ul className="space-y-2">
-            {touches.map((touch) => (
-              <li
-                key={touch.id}
-                className="rounded-xl border border-[var(--line)] bg-white px-3 py-3"
-              >
-                <p className="text-sm">{touch.body}</p>
-                <p className="mt-1 font-mono text-xs uppercase tracking-[0.15em] text-[var(--ink-muted)]">
-                  {format(parseISO(touch.created_at), "PPp")}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+            <label className="space-y-1.5 md:col-span-2">
+              <FieldLabel>Next message draft</FieldLabel>
+              <Textarea
+                name="next_message_draft"
+                defaultValue={thread.next_message_draft ?? ""}
+                rows={4}
+              />
+            </label>
+
+            <div className="md:col-span-2">
+              <Button type="submit" variant="primary">
+                Save changes
+              </Button>
+            </div>
+          </form>
+        </CardHeader>
+      </Card>
+
+      <Card>
+        <CardHeader className="space-y-4">
+          <div>
+            <CardTitle className="text-base">Mark follow-up done</CardTitle>
+            <CardDescription className="mt-1">
+              Either reschedule the next follow-up or close the thread.
+            </CardDescription>
+          </div>
+
+          <form action={markFollowupDoneAction} className="grid gap-3 md:grid-cols-2">
+            <input type="hidden" name="thread_id" value={thread.id} />
+
+            <label className="space-y-1.5">
+              <FieldLabel>Next follow-up date</FieldLabel>
+              <Input
+                type="datetime-local"
+                name="next_followup_at"
+                defaultValue={localDateInputValue(thread.next_followup_at)}
+              />
+            </label>
+
+            <label className="space-y-1.5">
+              <FieldLabel>Next message draft (optional)</FieldLabel>
+              <Input name="next_message_draft" defaultValue={thread.next_message_draft ?? ""} />
+            </label>
+
+            <div className="flex flex-wrap items-center gap-2 md:col-span-2">
+              <Button type="submit" name="mode" value="reschedule" variant="secondary">
+                Mark done + set next follow-up
+              </Button>
+              <Button type="submit" name="mode" value="close" variant="primary">
+                Mark done + close thread
+              </Button>
+            </div>
+          </form>
+        </CardHeader>
+      </Card>
+
+      <Card>
+        <CardHeader className="space-y-4">
+          <div>
+            <CardTitle className="text-base">Add touch</CardTitle>
+            <CardDescription className="mt-1">
+              Log an update, then optionally refresh the next follow-up and draft.
+            </CardDescription>
+          </div>
+
+          <form action={addTouchAction} className="grid gap-3 md:grid-cols-2">
+            <input type="hidden" name="thread_id" value={thread.id} />
+
+            <label className="space-y-1.5 md:col-span-2">
+              <FieldLabel>Note</FieldLabel>
+              <Textarea
+                required
+                name="body"
+                rows={3}
+                placeholder="Called and confirmed they will reply tomorrow."
+              />
+            </label>
+
+            <label className="space-y-1.5">
+              <FieldLabel>Update next follow-up (optional)</FieldLabel>
+              <Input type="datetime-local" name="next_followup_at" />
+            </label>
+
+            <label className="space-y-1.5">
+              <FieldLabel>Update draft (optional)</FieldLabel>
+              <Input name="next_message_draft" />
+            </label>
+
+            <div className="md:col-span-2">
+              <Button type="submit" variant="secondary">
+                Add touch
+              </Button>
+            </div>
+          </form>
+        </CardHeader>
+      </Card>
+
+      <Card>
+        <CardHeader className="space-y-4">
+          <div>
+            <CardTitle className="text-base">Activity log</CardTitle>
+            <CardDescription className="mt-1">
+              Timeline of touches recorded for this thread.
+            </CardDescription>
+          </div>
+
+          {touches.length === 0 ? (
+            <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--border)] bg-[rgba(148,163,184,0.06)] px-4 py-8 text-center text-sm text-[var(--muted)]">
+              No touches yet.
+            </div>
+          ) : (
+            <ul className="space-y-2">
+              {touches.map((touch) => (
+                <li
+                  key={touch.id}
+                  className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[rgba(148,163,184,0.07)] px-3 py-3"
+                >
+                  <p className="text-sm text-[var(--text)]">{touch.body}</p>
+                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">
+                    {format(parseISO(touch.created_at), "PPp")}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardHeader>
+      </Card>
     </div>
   );
 }

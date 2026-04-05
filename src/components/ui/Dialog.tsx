@@ -52,7 +52,7 @@ export function Dialog({
       <button
         type="button"
         aria-label="Close dialog"
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/75 backdrop-blur-sm"
         onClick={onClose}
       />
 
@@ -61,7 +61,7 @@ export function Dialog({
         aria-modal="true"
         aria-label={title}
         className={cn(
-          "relative z-10 w-full max-w-2xl rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow)]",
+          "relative z-10 w-full max-w-2xl rounded-[var(--radius-xl)] border border-[var(--border)] bg-[rgba(13,20,35,0.97)] shadow-[var(--shadow)]",
           className,
         )}
       >

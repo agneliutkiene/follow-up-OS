@@ -34,7 +34,7 @@ export function DashboardTabs() {
 
   return (
     <nav aria-label="Primary">
-      <ul className="flex items-center gap-1 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-1">
+      <ul className="flex items-center gap-1 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[rgba(148,163,184,0.08)] p-1">
         {tabs.map((tab) => {
           const active = tab.isActive(pathname);
 
@@ -47,7 +47,7 @@ export function DashboardTabs() {
                   "relative inline-flex min-w-[92px] items-center justify-center rounded-[var(--radius-md)] px-4 py-2 text-sm font-medium transition",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]",
                   active
-                    ? "bg-[var(--surface-2)] text-[var(--text)]"
+                    ? "bg-[rgba(37,99,235,0.14)] text-[var(--text)]"
                     : "text-[var(--muted)] hover:text-[var(--text)]",
                 )}
               >

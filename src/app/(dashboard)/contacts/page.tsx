@@ -1,5 +1,10 @@
 import Link from "next/link";
+import { format, parseISO } from "date-fns";
 
+import { Button } from "@/components/ui/Button";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
 import { requireUser } from "@/lib/auth";
 import type { Contact } from "@/lib/types";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
@@ -9,6 +14,22 @@ import { createContactAction, updateContactAction } from "./actions";
 type ContactsPageProps = {
   searchParams: Promise<{ error?: string; message?: string }>;
 };
+
+function Notice({ tone, text }: { tone: "error" | "success"; text: string }) {
+  if (tone === "error") {
+    return (
+      <p className="rounded-[var(--radius-md)] border border-[rgba(239,68,68,0.35)] bg-[rgba(239,68,68,0.14)] px-3 py-2 text-sm text-[#fca5a5]">
+        {text}
+      </p>
+    );
+  }
+
+  return (
+    <p className="rounded-[var(--radius-md)] border border-[rgba(16,185,129,0.35)] bg-[rgba(16,185,129,0.12)] px-3 py-2 text-sm text-[#86efac]">
+      {text}
+    </p>
+  );
+}
 
 export default async function ContactsPage({ searchParams }: ContactsPageProps) {
   await requireUser();
@@ -28,133 +49,133 @@ export default async function ContactsPage({ searchParams }: ContactsPageProps) 
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-        <h1 className="text-2xl font-semibold tracking-tight">Contacts</h1>
-        <p className="mt-1 text-sm text-[var(--ink-muted)]">
-          Add people once, then attach follow-up threads from inbox or thread
-          detail.
-        </p>
-
-        {params.error ? (
-          <p className="mt-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-            {params.error}
-          </p>
-        ) : null}
-        {params.message ? (
-          <p className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-            {params.message}
-          </p>
-        ) : null}
-
-        <form action={createContactAction} className="mt-4 grid gap-3 rounded-2xl border border-[var(--line)] bg-white p-4 md:grid-cols-2">
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Name</span>
-            <input
-              required
-              name="name"
-              className="w-full rounded-xl border border-[var(--line)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-              placeholder="Jordan Lee"
-            />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Email (optional)</span>
-            <input
-              name="email"
-              type="email"
-              className="w-full rounded-xl border border-[var(--line)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-              placeholder="jordan@example.com"
-            />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">X handle (optional)</span>
-            <input
-              name="x_handle"
-              className="w-full rounded-xl border border-[var(--line)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-              placeholder="@jordan"
-            />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Notes (optional)</span>
-            <input
-              name="notes"
-              className="w-full rounded-xl border border-[var(--line)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-              placeholder="Prefers morning calls"
-            />
-          </label>
-
-          <button
-            type="submit"
-            className="w-fit rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white hover:opacity-95"
-          >
-            Create contact
-          </button>
-        </form>
-      </section>
-
-      <section className="space-y-3">
-        {contacts.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--surface)] px-4 py-10 text-center text-sm text-[var(--ink-muted)]">
-            No contacts yet. Create your first one above.
+      <Card>
+        <CardHeader className="space-y-4">
+          <div>
+            <CardTitle className="text-2xl">Contacts</CardTitle>
+            <CardDescription className="mt-1">
+              Add people once, then attach threads and keep every follow-up visible.
+            </CardDescription>
           </div>
+
+          {params.error ? <Notice tone="error" text={params.error} /> : null}
+          {params.message ? <Notice tone="success" text={params.message} /> : null}
+        </CardHeader>
+      </Card>
+
+      <Card>
+        <CardHeader className="space-y-4">
+          <div>
+            <CardTitle className="text-base">New contact</CardTitle>
+            <CardDescription className="mt-1">
+              Name is required. Email, X handle, and notes are optional.
+            </CardDescription>
+          </div>
+
+          <form action={createContactAction} className="grid gap-3 md:grid-cols-2">
+            <label className="space-y-1.5 text-sm">
+              <span className="text-[var(--muted)]">Name</span>
+              <Input required name="name" placeholder="Jordan Lee" />
+            </label>
+
+            <label className="space-y-1.5 text-sm">
+              <span className="text-[var(--muted)]">Email (optional)</span>
+              <Input name="email" type="email" placeholder="jordan@example.com" />
+            </label>
+
+            <label className="space-y-1.5 text-sm">
+              <span className="text-[var(--muted)]">X handle (optional)</span>
+              <Input name="x_handle" placeholder="@jordan" />
+            </label>
+
+            <label className="space-y-1.5 text-sm">
+              <span className="text-[var(--muted)]">Notes (optional)</span>
+              <Textarea
+                name="notes"
+                rows={1}
+                className="min-h-10 resize-none"
+                placeholder="Prefers morning calls"
+              />
+            </label>
+
+            <div className="md:col-span-2">
+              <Button type="submit" variant="primary">
+                Create contact
+              </Button>
+            </div>
+          </form>
+        </CardHeader>
+      </Card>
+
+      <section className="space-y-4">
+        {contacts.length === 0 ? (
+          <Card>
+            <CardHeader className="py-10 text-center">
+              <p className="text-sm text-[var(--muted)]">
+                No contacts yet. Add your first contact above.
+              </p>
+            </CardHeader>
+          </Card>
         ) : (
           contacts.map((contact) => (
-            <form
-              key={contact.id}
-              action={updateContactAction}
-              className="grid gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 md:grid-cols-2"
-            >
-              <input type="hidden" name="id" value={contact.id} />
+            <Card key={contact.id}>
+              <CardHeader className="space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <CardTitle className="text-base">{contact.name}</CardTitle>
+                    <CardDescription className="mt-1 text-xs">
+                      Added {format(parseISO(contact.created_at), "PP")}
+                    </CardDescription>
+                  </div>
+                  <Link
+                    href={`/inbox?contact_id=${contact.id}`}
+                    className="inline-flex h-9 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-2)] px-3 text-xs font-medium text-[var(--text)] transition hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+                  >
+                    New thread
+                  </Link>
+                </div>
 
-              <label className="space-y-1 text-sm">
-                <span className="text-[var(--ink-muted)]">Name</span>
-                <input
-                  required
-                  name="name"
-                  defaultValue={contact.name}
-                  className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-                />
-              </label>
-              <label className="space-y-1 text-sm">
-                <span className="text-[var(--ink-muted)]">Email</span>
-                <input
-                  name="email"
-                  type="email"
-                  defaultValue={contact.email ?? ""}
-                  className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-                />
-              </label>
-              <label className="space-y-1 text-sm">
-                <span className="text-[var(--ink-muted)]">X handle</span>
-                <input
-                  name="x_handle"
-                  defaultValue={contact.x_handle ?? ""}
-                  className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-                />
-              </label>
-              <label className="space-y-1 text-sm">
-                <span className="text-[var(--ink-muted)]">Notes</span>
-                <input
-                  name="notes"
-                  defaultValue={contact.notes ?? ""}
-                  className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-                />
-              </label>
+                <form action={updateContactAction} className="grid gap-3 md:grid-cols-2">
+                  <input type="hidden" name="id" value={contact.id} />
 
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="submit"
-                  className="rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm hover:bg-[var(--surface-muted)]"
-                >
-                  Save
-                </button>
-                <Link
-                  href={`/inbox?contact_id=${contact.id}`}
-                  className="rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm hover:bg-[var(--surface-muted)]"
-                >
-                  New thread
-                </Link>
-              </div>
-            </form>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="text-[var(--muted)]">Name</span>
+                    <Input required name="name" defaultValue={contact.name} />
+                  </label>
+
+                  <label className="space-y-1.5 text-sm">
+                    <span className="text-[var(--muted)]">Email</span>
+                    <Input
+                      name="email"
+                      type="email"
+                      defaultValue={contact.email ?? ""}
+                      placeholder="jordan@example.com"
+                    />
+                  </label>
+
+                  <label className="space-y-1.5 text-sm">
+                    <span className="text-[var(--muted)]">X handle</span>
+                    <Input name="x_handle" defaultValue={contact.x_handle ?? ""} placeholder="@jordan" />
+                  </label>
+
+                  <label className="space-y-1.5 text-sm">
+                    <span className="text-[var(--muted)]">Notes</span>
+                    <Textarea
+                      name="notes"
+                      rows={1}
+                      className="min-h-10 resize-none"
+                      defaultValue={contact.notes ?? ""}
+                    />
+                  </label>
+
+                  <div className="md:col-span-2">
+                    <Button type="submit" variant="secondary">
+                      Save changes
+                    </Button>
+                  </div>
+                </form>
+              </CardHeader>
+            </Card>
           ))
         )}
       </section>

@@ -14,7 +14,7 @@ export function TableWrapper({
   return (
     <div
       className={cn(
-        "overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]",
+        "overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--border)] bg-[rgba(15,23,42,0.82)]",
         className,
       )}
       {...props}
@@ -33,7 +33,7 @@ export function TableHeader({
   return (
     <thead
       className={cn(
-        "bg-[var(--surface-2)] text-left text-xs uppercase tracking-[0.08em] text-[var(--muted)]",
+        "bg-[rgba(148,163,184,0.08)] text-left text-xs uppercase tracking-[0.08em] text-[var(--muted)]",
         className,
       )}
       {...props}
@@ -48,7 +48,7 @@ export function TableBody({
   return (
     <tbody
       className={cn(
-        "divide-y divide-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
+        "divide-y divide-[var(--border)] text-[var(--text)]",
         className,
       )}
       {...props}

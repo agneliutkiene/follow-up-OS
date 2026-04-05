@@ -75,7 +75,7 @@ export default async function SettingsPage({ searchParams }: SettingsPageProps) 
 
   return (
     <div className="space-y-6">
-      <Card className="bg-[rgba(17,26,45,0.92)]">
+      <Card>
         <CardHeader className="p-5">
           <CardTitle className="text-2xl">Daily digest settings</CardTitle>
           <CardDescription>

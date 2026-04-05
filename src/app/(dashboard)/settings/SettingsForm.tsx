@@ -83,7 +83,7 @@ export function SettingsForm({
   return (
     <div className="space-y-6">
       <form action={saveSettingsAction}>
-        <Card className="bg-[rgba(17,26,45,0.92)]">
+        <Card>
           <CardHeader className="space-y-5 p-5">
             <div className="flex items-start justify-between gap-4 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4">
               <div>
@@ -97,7 +97,7 @@ export function SettingsForm({
                   name="digest_enabled"
                   type="checkbox"
                   defaultChecked={settings.digest_enabled}
-                  className="h-4 w-4 rounded border-[var(--border)] bg-[var(--surface-2)] text-[var(--primary)] focus:ring-[var(--ring)]"
+                  className="h-4 w-4 rounded border-[var(--border)] bg-[var(--surface-2)] text-[var(--primary)] focus:ring-2 focus:ring-[var(--ring)]"
                 />
                 Enabled
               </label>
@@ -139,7 +139,7 @@ export function SettingsForm({
       </form>
 
       <form action={sendTestDigestAction}>
-        <Card className="bg-[rgba(17,26,45,0.92)]">
+        <Card>
           <CardHeader className="flex flex-wrap items-center justify-between gap-3 p-5">
             <div>
               <CardTitle className="text-base">Send test digest</CardTitle>

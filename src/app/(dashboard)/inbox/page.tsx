@@ -196,7 +196,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-[rgba(17,26,45,0.92)]">
+      <Card>
         <CardHeader className="p-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="space-y-1.5">
@@ -218,7 +218,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
         </CardHeader>
       </Card>
 
-      <Card className="bg-[rgba(17,26,45,0.92)]">
+      <Card>
         <CardHeader className="space-y-4 p-5">
           <div className="inline-flex w-full flex-wrap items-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-1">
             {(Object.keys(tabLabels) as InboxTab[]).map((tab) => (
@@ -264,7 +264,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
                   activeRows.map((thread) => (
                     <tr
                       key={thread.id}
-                      className="align-top transition-colors hover:bg-[rgba(148,163,184,0.06)]"
+                      className="align-top transition-colors hover:bg-[rgba(148,163,184,0.08)]"
                     >
                       <Td className="font-medium">{thread.contact?.name ?? "Unknown"}</Td>
                       <Td>

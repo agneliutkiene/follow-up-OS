@@ -290,11 +290,11 @@
 }
 
 .numbersStrip {
-  margin: 30px -32px -32px;
-  border-top: 1px solid rgba(120, 104, 225, 0.35);
+  margin: 22px -32px -32px;
+  border-top: none;
   border-radius: 0;
   background: linear-gradient(180deg, #1b0f3f 0%, #1a0e3a 100%);
-  padding: 22px 32px;
+  padding: 14px 32px;
 }
 
 .numbersLabel {
@@ -307,10 +307,10 @@
 }
 
 .metricsGrid {
-  margin-top: 14px;
+  margin-top: 10px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+  gap: 16px;
 }
 
 .metricCard {
@@ -322,7 +322,7 @@
 .metricValue {
   margin: 0;
   color: #ffffff;
-  font-size: clamp(1.8rem, 3vw, 3rem);
+  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
   line-height: 1;
   font-weight: 700;
 }

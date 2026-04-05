@@ -206,8 +206,6 @@ export default function HomePage() {
   return (
     <div className={styles.pageRoot}>
       <section className={styles.heroSection}>
-        <div className={styles.heroGlowLayer} />
-
         <header className={styles.navbarWrap}>
           <div className={styles.container}>
             <nav className={styles.navbar} aria-label="Top">
@@ -216,7 +214,7 @@ export default function HomePage() {
                 <span>NoSlip</span>
               </Link>
 
-              <div className={styles.navRight}>
+              <div className={styles.navCenter}>
                 <a href="#product" className={styles.navLink}>
                   Product
                 </a>
@@ -226,6 +224,9 @@ export default function HomePage() {
                 <a href="#faq" className={styles.navLink}>
                   FAQ
                 </a>
+              </div>
+
+              <div className={styles.navCta}>
                 <Link href="/#pricing" className={styles.primaryButtonNav}>
                   Get NoSlip
                 </Link>
@@ -271,10 +272,8 @@ export default function HomePage() {
             />
           </div>
         </div>
-      </section>
 
-      <section id="product" className={styles.darkPanelSection}>
-        <div className={styles.container}>
+        <div id="product" className={`${styles.container} ${styles.featurePanelWrap}`}>
           <div className={styles.featurePanel}>
             <div className={styles.featuresGrid}>
               {features.map((feature) => (

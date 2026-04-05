@@ -26,7 +26,12 @@
 .navbarWrap {
   position: relative;
   z-index: 5;
-  padding-top: 8px;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.navbarWrap .container {
+  height: 100%;
 }
 
 .navbar {
@@ -35,7 +40,7 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   column-gap: 18px;
-  background: rgba(0, 0, 0, 0.2);
+  background: transparent;
   padding: 0 4px;
 }
 
@@ -181,14 +186,15 @@
 
 .heroVisual {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  align-self: center;
 }
 
 .heroImage {
-  width: min(100%, 610px);
+  width: min(100%, 580px);
   height: auto;
-  filter: brightness(0.82) saturate(0.9) contrast(1.05);
-  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.36);
+  filter: brightness(0.92) saturate(0.95) contrast(1.02)
+    drop-shadow(0 30px 80px rgba(0, 0, 0, 0.55));
 }
 
 .featurePanelWrap {
@@ -751,7 +757,13 @@
     gap: 28px;
   }
 
-  .heroVisual,
+  .heroVisual {
+    margin-top: 24px;
+    justify-self: center;
+    width: min(100%, 590px);
+    justify-content: center;
+  }
+
   .promoVisualWrap {
     justify-self: center;
     width: min(100%, 640px);

@@ -262,14 +262,7 @@ export default function HomePage() {
           </div>
 
           <div className={styles.heroVisual}>
-            <Image
-              src="/hero-3d-placeholder.svg"
-              alt="3D placeholder illustration"
-              width={620}
-              height={470}
-              className={styles.heroImage}
-              priority
-            />
+            <img src="/hero-3d.png" alt="NoSlip daily digest preview" className={styles.heroImage} />
           </div>
         </div>
 

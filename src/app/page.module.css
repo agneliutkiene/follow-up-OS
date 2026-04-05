@@ -204,9 +204,9 @@
 
 .heroImage {
   width: 100%;
-  max-width: 680px;
+  max-width: 780px;
   height: auto;
-  transform: translateX(10px) scale(1.08);
+  transform: translateX(24px) scale(1.15);
   filter: drop-shadow(0 30px 80px rgba(0, 0, 0, 0.35));
   box-shadow: none;
 }

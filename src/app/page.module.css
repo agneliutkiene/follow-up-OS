@@ -12,7 +12,7 @@
 
 .sceneBackground {
   background:
-    radial-gradient(circle at 84% 8%, rgba(255, 190, 225, 0.62) 0%, rgba(255, 190, 225, 0) 44%),
+    radial-gradient(circle at 84% 8%, #cdbfff 0%, rgba(205, 191, 255, 0) 44%),
     radial-gradient(circle at 14% 10%, rgba(55, 114, 237, 0.78) 0%, rgba(55, 114, 237, 0) 48%),
     linear-gradient(180deg, #010207 0%, #060b1c 16%, #1b2451 30%, #5f67be 46%, #b9a8f1 66%, #e5c9f0 84%, #f2d6e6 100%);
 }
@@ -27,7 +27,7 @@
   position: relative;
   z-index: 5;
   height: 156px;
-  background: linear-gradient(180deg, rgba(2, 1, 5, 0.98) 0%, rgba(7, 10, 18, 0) 100%);
+  background: linear-gradient(180deg, #02040b 0%, #02040b 56%, rgba(2, 4, 11, 0) 100%);
 }
 
 .navbarWrap .container {

@@ -20,6 +20,11 @@ const tabs: Tab[] = [
     label: "Contacts",
     isActive: (pathname) => pathname.startsWith("/contacts"),
   },
+  {
+    href: "/settings",
+    label: "Settings",
+    isActive: (pathname) => pathname.startsWith("/settings"),
+  },
 ];
 
 export function DashboardTabs() {

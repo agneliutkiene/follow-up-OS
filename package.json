@@ -2,13 +2,7 @@
   "name": "follow-up-os",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "typecheck": "tsc --noEmit",
-    "seed:demo": "tsx scripts/seed.ts"
+"start": "next start -p $PORT -H 0.0.0.0"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.0",

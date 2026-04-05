@@ -12,10 +12,10 @@
 
 .sceneBackground {
   background:
-    radial-gradient(1140px 760px at 20% 58%, rgba(22, 120, 255, 0.9) 0%, rgba(22, 120, 255, 0.68) 28%, rgba(22, 120, 255, 0.36) 44%, rgba(22, 120, 255, 0.14) 58%, rgba(22, 120, 255, 0) 76%),
-    radial-gradient(1280px 840px at 84% 26%, rgba(233, 191, 248, 0.88) 0%, rgba(223, 180, 242, 0.62) 36%, rgba(223, 180, 242, 0.24) 56%, rgba(223, 180, 242, 0.06) 70%, rgba(223, 180, 242, 0) 82%),
-    radial-gradient(940px 620px at 56% 68%, rgba(196, 169, 239, 0.32) 0%, rgba(196, 169, 239, 0.14) 38%, rgba(196, 169, 239, 0) 74%),
-    linear-gradient(180deg, #02040b 0%, #030713 15%, #172453 30%, #5d69b9 48%, #a892de 66%, #ccb5ea 82%, #e5c8ee 92%, #f3d4ea 100%);
+    radial-gradient(780px 540px at 18% 58%, rgba(0, 124, 255, 0.92) 0%, rgba(0, 124, 255, 0.68) 24%, rgba(0, 124, 255, 0.36) 42%, rgba(0, 124, 255, 0.12) 56%, rgba(0, 124, 255, 0) 72%),
+    radial-gradient(1480px 960px at 76% 64%, rgba(237, 198, 250, 0.95) 0%, rgba(237, 198, 250, 0.78) 36%, rgba(237, 198, 250, 0.5) 60%, rgba(237, 198, 250, 0.2) 78%, rgba(237, 198, 250, 0) 100%),
+    radial-gradient(980px 620px at 86% 22%, rgba(214, 175, 243, 0.7) 0%, rgba(214, 175, 243, 0.34) 40%, rgba(214, 175, 243, 0) 72%),
+    linear-gradient(180deg, #02040b 0%, #050a18 14%, #4a549d 30%, #9b96db 48%, #c8b2ea 66%, #e2c3f0 82%, #f2cff5 100%);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -30,7 +30,7 @@
   position: relative;
   z-index: 5;
   height: 124px;
-  background: linear-gradient(180deg, #02040b 0%, #02040b 54%, rgba(2, 4, 11, 0.68) 78%, rgba(2, 4, 11, 0) 100%);
+  background: linear-gradient(180deg, #02040b 0%, #02040b 50%, rgba(2, 4, 11, 0.32) 74%, rgba(2, 4, 11, 0) 100%);
 }
 
 .navbarWrap .container {

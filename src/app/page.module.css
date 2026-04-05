@@ -12,9 +12,9 @@
 
 .sceneBackground {
   background:
-    radial-gradient(720px 500px at 17% 57%, rgba(8, 126, 255, 0.9) 0%, rgba(8, 126, 255, 0.64) 30%, rgba(8, 126, 255, 0.34) 48%, rgba(8, 126, 255, 0.12) 62%, rgba(8, 126, 255, 0) 78%),
-    radial-gradient(1580px 980px at 82% 62%, rgba(238, 203, 250, 0.95) 0%, rgba(238, 203, 250, 0.76) 36%, rgba(238, 203, 250, 0.5) 58%, rgba(238, 203, 250, 0.22) 76%, rgba(238, 203, 250, 0) 92%),
-    linear-gradient(180deg, #02040b 0%, #050a19 14%, #243a79 30%, #6078c6 44%, #998fda 58%, #bda7e6 72%, #d2b4ea 84%, #e3c3ee 93%, #f0d0f3 100%);
+    radial-gradient(760px 520px at 18% 18%, rgba(59, 145, 255, 0.8) 0%, rgba(59, 145, 255, 0.52) 32%, rgba(59, 145, 255, 0.2) 52%, rgba(59, 145, 255, 0) 72%),
+    radial-gradient(1120px 720px at 80% 22%, rgba(198, 186, 244, 0.56) 0%, rgba(198, 186, 244, 0.28) 44%, rgba(198, 186, 244, 0.08) 62%, rgba(198, 186, 244, 0) 78%),
+    linear-gradient(180deg, #6f9de9 0%, #7298e4 22%, #7a96df 40%, #8798de 56%, #939ade 68%, #a19fe1 80%, #b0a6e5 90%, #bfaee9 100%);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -28,8 +28,8 @@
 .navbarWrap {
   position: relative;
   z-index: 5;
-  height: 124px;
-  background: linear-gradient(180deg, #02040b 0%, rgba(2, 4, 11, 0.92) 38%, rgba(2, 4, 11, 0.46) 68%, rgba(2, 4, 11, 0) 100%);
+  height: 108px;
+  background: linear-gradient(180deg, rgba(2, 4, 11, 0.86) 0%, rgba(2, 4, 11, 0.52) 52%, rgba(2, 4, 11, 0) 100%);
 }
 
 .navbarWrap .container {
@@ -210,7 +210,7 @@
   max-width: 780px;
   height: auto;
   transform: translateX(24px) scale(1.15);
-  filter: drop-shadow(0 16px 34px rgba(0, 0, 0, 0.18));
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.14));
   box-shadow: none;
 }
 

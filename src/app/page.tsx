@@ -262,7 +262,9 @@ export default function HomePage() {
           </div>
 
           <div className={styles.heroVisual}>
-            <img src="/hero-3d.png" alt="NoSlip daily digest preview" className={styles.heroImage} />
+            <div className={styles.heroArt}>
+              <img src="/hero-3d.png" alt="NoSlip daily digest preview" className={styles.heroImage} />
+            </div>
           </div>
         </div>
 

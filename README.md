@@ -1,6 +1,6 @@
-# Follow-up OS (MVP)
+# NoSlip (MVP)
 
-Follow-up OS is a lightweight follow-up tracker for solopreneurs so no lead, invoice, or client thread loses its next action.
+NoSlip is a lightweight follow-up tracker for solopreneurs so no lead, invoice, or client thread loses its next action.
 
 ## Stack
 
@@ -115,7 +115,7 @@ NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
 RESEND_API_KEY=...
-DIGEST_FROM_EMAIL="Follow-up OS <noreply@yourdomain.com>"
+DIGEST_FROM_EMAIL="NoSlip <noreply@yourdomain.com>"
 PUBLIC_BASE_URL="http://localhost:3000"
 DIGEST_CRON_SECRET=...
 DEMO_USER_EMAIL=demo@followupos.local

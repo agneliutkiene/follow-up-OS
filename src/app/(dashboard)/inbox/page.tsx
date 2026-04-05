@@ -9,9 +9,21 @@ import {
   startOfDay,
 } from "date-fns";
 
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableWrapper,
+  Td,
+  Th,
+} from "@/components/ui/Table";
 import { requireUser } from "@/lib/auth";
-import type { ThreadType } from "@/lib/types";
+import { cn } from "@/lib/cn";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import type { ThreadType } from "@/lib/types";
 
 import { createThreadAction, markDoneAction, snoozeAction } from "./actions";
 import { NewThreadDialog } from "./NewThreadDialog";
@@ -113,7 +125,7 @@ function parseTab(value: string | undefined): InboxTab {
 }
 
 const tabLabels: Record<InboxTab, string> = {
-  "due-today": "Due Today",
+  "due-today": "Due today",
   overdue: "Overdue",
   upcoming: "Upcoming 7d",
   closed: "Closed",
@@ -127,6 +139,22 @@ type InboxPageProps = {
     contact_id?: string;
   }>;
 };
+
+function Notice({ tone, text }: { tone: "error" | "success"; text: string }) {
+  if (tone === "error") {
+    return (
+      <p className="rounded-[var(--radius-md)] border border-[rgba(239,68,68,0.35)] bg-[rgba(239,68,68,0.14)] px-3 py-2 text-sm text-[#fca5a5]">
+        {text}
+      </p>
+    );
+  }
+
+  return (
+    <p className="rounded-[var(--radius-md)] border border-[rgba(16,185,129,0.35)] bg-[rgba(16,185,129,0.12)] px-3 py-2 text-sm text-[#86efac]">
+      {text}
+    </p>
+  );
+}
 
 export default async function InboxPage({ searchParams }: InboxPageProps) {
   await requireUser();
@@ -158,7 +186,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
   const errorMessage = params.error;
   const preselectedContactId = params.contact_id;
 
-  const threads = ((threadData ?? []) as unknown as ThreadQueryRow[]).map((row) => ({
+  const threads = ((threadData ?? []) as ThreadQueryRow[]).map((row) => ({
     ...row,
     contact: Array.isArray(row.contact) ? (row.contact[0] ?? null) : row.contact,
   }));
@@ -168,155 +196,141 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-[var(--ink)]">
-              Inbox
-            </h1>
-            <p className="text-sm text-[var(--ink-muted)]">
-              Keep every open thread attached to a clear next follow-up.
-            </p>
+      <Card className="bg-[rgba(17,26,45,0.92)]">
+        <CardHeader className="p-5">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="space-y-1.5">
+              <CardTitle className="text-2xl">Inbox</CardTitle>
+              <CardDescription>
+                Keep every thread pointed at a clear next action.
+              </CardDescription>
+            </div>
+            <NewThreadDialog
+              contacts={contacts}
+              preselectedContactId={preselectedContactId}
+              createThreadAction={createThreadAction}
+            />
           </div>
-          <NewThreadDialog
-            contacts={contacts}
-            preselectedContactId={preselectedContactId}
-            createThreadAction={createThreadAction}
-          />
-        </div>
+          <div className="space-y-2 pt-1">
+            {errorMessage ? <Notice tone="error" text={errorMessage} /> : null}
+            {infoMessage ? <Notice tone="success" text={infoMessage} /> : null}
+          </div>
+        </CardHeader>
+      </Card>
 
-        {errorMessage ? (
-          <p className="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-            {errorMessage}
-          </p>
-        ) : null}
-        {infoMessage ? (
-          <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-            {infoMessage}
-          </p>
-        ) : null}
-      </section>
+      <Card className="bg-[rgba(17,26,45,0.92)]">
+        <CardHeader className="space-y-4 p-5">
+          <div className="inline-flex w-full flex-wrap items-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-1">
+            {(Object.keys(tabLabels) as InboxTab[]).map((tab) => (
+              <Link
+                key={tab}
+                href={`/inbox?tab=${tab}`}
+                className={cn(
+                  "inline-flex h-9 items-center justify-center rounded-[var(--radius-md)] px-3 text-sm font-medium transition",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]",
+                  activeTab === tab
+                    ? "bg-[var(--surface-2)] text-[var(--text)]"
+                    : "text-[var(--muted)] hover:text-[var(--text)]",
+                )}
+              >
+                {tabLabels[tab]} ({buckets[tab].length})
+              </Link>
+            ))}
+          </div>
 
-      <section className="space-y-4 rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5">
-        <div className="flex flex-wrap items-center gap-2">
-          {(Object.keys(tabLabels) as InboxTab[]).map((tab) => (
-            <Link
-              key={tab}
-              href={`/inbox?tab=${tab}`}
-              className={`rounded-md border px-3 py-1.5 text-sm font-medium ${
-                activeTab === tab
-                  ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--accent)]"
-                  : "border-[var(--line)] bg-[var(--surface)] text-[var(--ink-muted)] hover:text-[var(--ink)]"
-              }`}
-            >
-              {tabLabels[tab]} ({buckets[tab].length})
-            </Link>
-          ))}
-        </div>
-
-        <div className="overflow-x-auto rounded-lg border border-[var(--line)]">
-          <table className="min-w-full text-sm">
-            <thead className="bg-[var(--surface-muted)] text-left text-[var(--ink-muted)]">
-              <tr>
-                <th className="px-4 py-3 font-medium">Contact</th>
-                <th className="px-4 py-3 font-medium">Thread</th>
-                <th className="px-4 py-3 font-medium">Next follow-up</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">Draft preview</th>
-                <th className="px-4 py-3 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[var(--line)] bg-[var(--surface)]">
-              {activeRows.length === 0 ? (
+          <TableWrapper>
+            <Table>
+              <TableHeader>
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-[var(--ink-muted)]">
-                    No threads in this bucket.
-                  </td>
+                  <Th>Contact</Th>
+                  <Th>Thread</Th>
+                  <Th>Next follow-up</Th>
+                  <Th>Status</Th>
+                  <Th>Draft preview</Th>
+                  <Th>Actions</Th>
                 </tr>
-              ) : (
-                activeRows.map((thread) => (
-                  <tr key={thread.id} className="align-top">
-                    <td className="px-4 py-3 font-medium text-[var(--ink)]">
-                      {thread.contact?.name ?? "Unknown"}
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-[var(--ink)]">{thread.title}</p>
-                      <p className="font-mono text-xs uppercase tracking-wide text-[var(--ink-muted)]">
-                        {thread.type}
-                      </p>
-                      <p className="mt-1 text-xs text-[var(--ink-muted)]">
-                        Last touched {format(parseISO(thread.last_touched_at), "PPp")}
-                      </p>
-                    </td>
-                    <td className="px-4 py-3 text-[var(--ink-muted)]">
-                      {thread.next_followup_at
-                        ? format(parseISO(thread.next_followup_at), "PPp")
-                        : "-"}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`rounded-md px-2 py-1 text-xs font-medium ${
-                          thread.status === "closed"
-                            ? "bg-slate-200 text-slate-700"
-                            : "bg-[var(--accent-soft)] text-[var(--accent)]"
-                        }`}
-                      >
-                        {thread.status}
-                      </span>
-                    </td>
-                    <td className="max-w-xs px-4 py-3 text-[var(--ink-muted)]">
-                      {toDraftPreview(thread.next_message_draft)}
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Link
-                          href={`/threads/${thread.id}`}
-                          className="rounded-md border border-[var(--line)] px-2.5 py-1.5 text-xs text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
-                        >
-                          Open
-                        </Link>
-                        {thread.status === "open" ? (
-                          <>
-                            <form action={markDoneAction}>
-                              <input type="hidden" name="thread_id" value={thread.id} />
-                              <button
-                                type="submit"
-                                className="rounded-md border border-[var(--line)] px-2.5 py-1.5 text-xs text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
-                              >
-                                Mark done
-                              </button>
-                            </form>
-                            <form action={snoozeAction}>
-                              <input type="hidden" name="thread_id" value={thread.id} />
-                              <input type="hidden" name="days" value="2" />
-                              <button
-                                type="submit"
-                                className="rounded-md border border-[var(--line)] px-2.5 py-1.5 text-xs text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
-                              >
-                                Snooze 2d
-                              </button>
-                            </form>
-                            <form action={snoozeAction}>
-                              <input type="hidden" name="thread_id" value={thread.id} />
-                              <input type="hidden" name="days" value="7" />
-                              <button
-                                type="submit"
-                                className="rounded-md border border-[var(--line)] px-2.5 py-1.5 text-xs text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
-                              >
-                                Snooze 7d
-                              </button>
-                            </form>
-                          </>
-                        ) : null}
-                      </div>
-                    </td>
+              </TableHeader>
+              <TableBody>
+                {activeRows.length === 0 ? (
+                  <tr>
+                    <Td
+                      colSpan={6}
+                      className="px-4 py-12 text-center text-sm text-[var(--muted)]"
+                    >
+                      No threads here yet. Add one with <span className="text-[var(--text)]">New thread</span>.
+                    </Td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
+                ) : (
+                  activeRows.map((thread) => (
+                    <tr
+                      key={thread.id}
+                      className="align-top transition-colors hover:bg-[rgba(148,163,184,0.06)]"
+                    >
+                      <Td className="font-medium">{thread.contact?.name ?? "Unknown"}</Td>
+                      <Td>
+                        <p className="font-medium text-[var(--text)]">{thread.title}</p>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">
+                          {thread.type}
+                        </p>
+                        <p className="mt-1 text-xs text-[var(--muted)]">
+                          Last touched {format(parseISO(thread.last_touched_at), "PPp")}
+                        </p>
+                      </Td>
+                      <Td className="text-[var(--muted)]">
+                        {thread.next_followup_at
+                          ? format(parseISO(thread.next_followup_at), "PPp")
+                          : "-"}
+                      </Td>
+                      <Td>
+                        <Badge variant={thread.status === "closed" ? "muted" : "default"}>
+                          {thread.status}
+                        </Badge>
+                      </Td>
+                      <Td className="max-w-xs text-[var(--muted)]">
+                        {toDraftPreview(thread.next_message_draft)}
+                      </Td>
+                      <Td>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Link
+                            href={`/threads/${thread.id}`}
+                            className="inline-flex h-8 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-2)] px-3 text-xs font-medium text-[var(--text)] transition hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+                          >
+                            Open
+                          </Link>
+                          {thread.status === "open" ? (
+                            <>
+                              <form action={markDoneAction}>
+                                <input type="hidden" name="thread_id" value={thread.id} />
+                                <Button type="submit" size="sm" variant="ghost">
+                                  Mark done
+                                </Button>
+                              </form>
+                              <form action={snoozeAction}>
+                                <input type="hidden" name="thread_id" value={thread.id} />
+                                <input type="hidden" name="days" value="2" />
+                                <Button type="submit" size="sm" variant="ghost">
+                                  +2d
+                                </Button>
+                              </form>
+                              <form action={snoozeAction}>
+                                <input type="hidden" name="thread_id" value={thread.id} />
+                                <input type="hidden" name="days" value="7" />
+                                <Button type="submit" size="sm" variant="ghost">
+                                  +7d
+                                </Button>
+                              </form>
+                            </>
+                          ) : null}
+                        </div>
+                      </Td>
+                    </tr>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </TableWrapper>
+        </CardHeader>
+      </Card>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 import { requireUser } from "@/lib/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
@@ -51,6 +52,22 @@ async function getOrCreateUserSettings(userId: string) {
   return created as SettingsRow;
 }
 
+function Notice({ tone, text }: { tone: "error" | "success"; text: string }) {
+  if (tone === "error") {
+    return (
+      <p className="mt-3 rounded-[var(--radius-md)] border border-[rgba(239,68,68,0.35)] bg-[rgba(239,68,68,0.14)] px-3 py-2 text-sm text-[#fca5a5]">
+        {text}
+      </p>
+    );
+  }
+
+  return (
+    <p className="mt-3 rounded-[var(--radius-md)] border border-[rgba(16,185,129,0.35)] bg-[rgba(16,185,129,0.12)] px-3 py-2 text-sm text-[#86efac]">
+      {text}
+    </p>
+  );
+}
+
 export default async function SettingsPage({ searchParams }: SettingsPageProps) {
   const user = await requireUser();
   const settings = await getOrCreateUserSettings(user.id);
@@ -58,25 +75,16 @@ export default async function SettingsPage({ searchParams }: SettingsPageProps) 
 
   return (
     <div className="space-y-6">
-      <section className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5">
-        <h1 className="text-2xl font-semibold tracking-tight text-[var(--ink)]">
-          Daily Digest Settings
-        </h1>
-        <p className="mt-1 text-sm text-[var(--ink-muted)]">
-          Configure when your daily follow-up digest should arrive.
-        </p>
-
-        {params.error ? (
-          <p className="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-            {params.error}
-          </p>
-        ) : null}
-        {params.message ? (
-          <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-            {params.message}
-          </p>
-        ) : null}
-      </section>
+      <Card className="bg-[rgba(17,26,45,0.92)]">
+        <CardHeader className="p-5">
+          <CardTitle className="text-2xl">Daily digest settings</CardTitle>
+          <CardDescription>
+            Configure when NoSlip sends your summary and test delivery instantly.
+          </CardDescription>
+          {params.error ? <Notice tone="error" text={params.error} /> : null}
+          {params.message ? <Notice tone="success" text={params.message} /> : null}
+        </CardHeader>
+      </Card>
 
       <SettingsForm
         settings={settings}

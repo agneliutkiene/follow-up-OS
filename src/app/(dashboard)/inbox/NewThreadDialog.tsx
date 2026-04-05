@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/Button";
+import { Dialog } from "@/components/ui/Dialog";
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
+import { Textarea } from "@/components/ui/Textarea";
 
 type ContactOption = {
   id: string;
@@ -36,154 +42,83 @@ export function NewThreadDialog({
     return localDateInputValue(tomorrow);
   });
 
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    const onEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setOpen(false);
-      }
-    };
-
-    window.addEventListener("keydown", onEscape);
-    return () => window.removeEventListener("keydown", onEscape);
-  }, [open]);
-
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="rounded-md bg-[var(--accent)] px-3 py-2 text-sm font-medium text-white hover:opacity-95"
-      >
+      <Button type="button" variant="primary" onClick={() => setOpen(true)}>
         New thread
-      </button>
+      </Button>
 
-      {open ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <button
-            type="button"
-            aria-label="Close dialog"
-            className="absolute inset-0 bg-slate-900/40"
-            onClick={() => setOpen(false)}
-          />
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        title="New thread"
+        description="Every open thread needs a next follow-up date."
+      >
+        <form
+          action={createThreadAction}
+          className="grid gap-3 md:grid-cols-2"
+          onSubmit={() => setOpen(false)}
+        >
+          <input type="hidden" name="status" value="open" />
 
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="new-thread-title"
-            className="relative z-10 w-full max-w-2xl rounded-lg border border-[var(--line)] bg-[var(--surface)] shadow-xl"
-          >
-            <div className="flex items-center justify-between border-b border-[var(--line)] px-4 py-3">
-              <div>
-                <h2 id="new-thread-title" className="text-base font-semibold text-[var(--ink)]">
-                  Create thread
-                </h2>
-                <p className="text-sm text-[var(--ink-muted)]">
-                  Every open thread needs a next follow-up date.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="rounded-md border border-[var(--line)] px-2.5 py-1 text-sm text-[var(--ink-muted)] hover:bg-[var(--surface-muted)]"
-              >
-                Close
-              </button>
-            </div>
+          <label className="space-y-1 text-sm">
+            <span className="text-[var(--muted)]">Contact</span>
+            <Select name="contact_id" required defaultValue={preselectedContactId ?? ""}>
+              <option value="" disabled>
+                Select a contact
+              </option>
+              {contacts.map((contact) => (
+                <option key={contact.id} value={contact.id}>
+                  {contact.name}
+                </option>
+              ))}
+            </Select>
+          </label>
 
-            <form
-              action={createThreadAction}
-              className="grid gap-3 p-4 md:grid-cols-2"
-              onSubmit={() => setOpen(false)}
-            >
-              <input type="hidden" name="status" value="open" />
+          <label className="space-y-1 text-sm">
+            <span className="text-[var(--muted)]">Thread title</span>
+            <Input required name="title" placeholder="Invoice #2045" />
+          </label>
 
-              <label className="space-y-1 text-sm">
-                <span className="text-[var(--ink-muted)]">Contact</span>
-                <select
-                  name="contact_id"
-                  required
-                  defaultValue={preselectedContactId ?? ""}
-                  className="w-full rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-                >
-                  <option value="" disabled>
-                    Select a contact
-                  </option>
-                  {contacts.map((contact) => (
-                    <option key={contact.id} value={contact.id}>
-                      {contact.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
+          <label className="space-y-1 text-sm">
+            <span className="text-[var(--muted)]">Type</span>
+            <Select name="type" defaultValue="lead">
+              <option value="lead">Lead</option>
+              <option value="invoice">Invoice</option>
+              <option value="meeting">Meeting</option>
+              <option value="other">Other</option>
+            </Select>
+          </label>
 
-              <label className="space-y-1 text-sm">
-                <span className="text-[var(--ink-muted)]">Thread title</span>
-                <input
-                  required
-                  name="title"
-                  placeholder="Invoice #2045"
-                  className="w-full rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-                />
-              </label>
+          <label className="space-y-1 text-sm">
+            <span className="text-[var(--muted)]">Next follow-up</span>
+            <Input
+              required
+              type="datetime-local"
+              name="next_followup_at"
+              defaultValue={defaultNextFollowup}
+            />
+          </label>
 
-              <label className="space-y-1 text-sm">
-                <span className="text-[var(--ink-muted)]">Type</span>
-                <select
-                  name="type"
-                  defaultValue="lead"
-                  className="w-full rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-                >
-                  <option value="lead">Lead</option>
-                  <option value="invoice">Invoice</option>
-                  <option value="meeting">Meeting</option>
-                  <option value="other">Other</option>
-                </select>
-              </label>
+          <label className="space-y-1 text-sm md:col-span-2">
+            <span className="text-[var(--muted)]">Next message draft</span>
+            <Textarea
+              name="next_message_draft"
+              rows={3}
+              placeholder="Optional draft for your next follow-up"
+            />
+          </label>
 
-              <label className="space-y-1 text-sm">
-                <span className="text-[var(--ink-muted)]">Next follow-up</span>
-                <input
-                  required
-                  type="datetime-local"
-                  name="next_followup_at"
-                  defaultValue={defaultNextFollowup}
-                  className="w-full rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-                />
-              </label>
-
-              <label className="space-y-1 text-sm md:col-span-2">
-                <span className="text-[var(--ink-muted)]">Next message draft</span>
-                <textarea
-                  name="next_message_draft"
-                  rows={3}
-                  placeholder="Optional draft for your next follow-up"
-                  className="w-full rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-                />
-              </label>
-
-              <div className="flex items-center gap-2 md:col-span-2">
-                <button
-                  type="submit"
-                  className="rounded-md bg-[var(--accent)] px-3 py-2 text-sm font-medium text-white hover:opacity-95"
-                >
-                  Create thread
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  className="rounded-md border border-[var(--line)] px-3 py-2 text-sm text-[var(--ink-muted)] hover:bg-[var(--surface-muted)]"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+          <div className="flex items-center gap-2 md:col-span-2">
+            <Button type="submit" variant="primary">
+              Create thread
+            </Button>
+            <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
           </div>
-        </div>
-      ) : null}
+        </form>
+      </Dialog>
     </>
   );
 }

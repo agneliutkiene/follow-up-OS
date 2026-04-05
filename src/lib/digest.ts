@@ -319,9 +319,9 @@ function buildDigestEmailHtml(params: {
 
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; color: #0F172A; line-height: 1.45;">
-      <h1 style="margin: 0 0 12px; font-size: 20px;">Follow-up OS Daily Digest</h1>
+      <h1 style="margin: 0 0 12px; font-size: 20px;">NoSlip Daily Digest</h1>
       <p style="margin: 0 0 16px; color: #64748b;">
-        Here's your follow-up snapshot for today.
+        NoSlip — daily follow-up digest + drafts so nothing falls through.
       </p>
       ${renderThreadList(overdue, "Overdue", timezone, baseUrl)}
       ${renderThreadList(dueToday, "Due Today", timezone, baseUrl)}
@@ -491,7 +491,7 @@ export async function sendDigestForUser(
     }
 
     const baseUrl = sanitizeBaseUrl(process.env.PUBLIC_BASE_URL);
-    const subject = `Follow-up OS Digest: ${counts.overdue} overdue, ${counts.due_today} due today`;
+    const subject = `NoSlip Digest: ${counts.overdue} overdue, ${counts.due_today} due today`;
     const html = buildDigestEmailHtml({
       timezone: boundaries.timezone,
       baseUrl,

@@ -2,6 +2,11 @@
 
 import { useMemo } from "react";
 
+import { Button } from "@/components/ui/Button";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
+
 type SettingsRow = {
   digest_enabled: boolean;
   digest_time_local: string;
@@ -77,88 +82,76 @@ export function SettingsForm({
 
   return (
     <div className="space-y-6">
-      <form
-        action={saveSettingsAction}
-        className="space-y-5 rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5"
-      >
-        <div className="flex items-start justify-between gap-4 rounded-lg border border-[var(--line)] bg-[var(--surface-muted)] p-4">
-          <div>
-            <h2 className="text-sm font-medium text-[var(--ink)]">Daily digest</h2>
-            <p className="mt-1 text-sm text-[var(--ink-muted)]">
-              Receive a once-daily summary with follow-ups that need attention.
-            </p>
-          </div>
-          <label className="inline-flex items-center gap-2 text-sm text-[var(--ink)]">
-            <input
-              name="digest_enabled"
-              type="checkbox"
-              defaultChecked={settings.digest_enabled}
-              className="h-4 w-4 rounded border-[var(--line)] text-[var(--accent)] focus:ring-[var(--accent)]"
-            />
-            Enabled
-          </label>
-        </div>
+      <form action={saveSettingsAction}>
+        <Card className="bg-[rgba(17,26,45,0.92)]">
+          <CardHeader className="space-y-5 p-5">
+            <div className="flex items-start justify-between gap-4 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4">
+              <div>
+                <CardTitle className="text-base">Daily digest</CardTitle>
+                <CardDescription className="mt-1">
+                  Receive one concise summary with follow-ups that need attention.
+                </CardDescription>
+              </div>
+              <label className="inline-flex items-center gap-2 text-sm text-[var(--text)]">
+                <input
+                  name="digest_enabled"
+                  type="checkbox"
+                  defaultChecked={settings.digest_enabled}
+                  className="h-4 w-4 rounded border-[var(--border)] bg-[var(--surface-2)] text-[var(--primary)] focus:ring-[var(--ring)]"
+                />
+                Enabled
+              </label>
+            </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Digest time (local)</span>
-            <input
-              required
-              type="time"
-              name="digest_time_local"
-              defaultValue={settings.digest_time_local}
-              className="w-full rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            />
-          </label>
+            <div className="grid gap-4 md:grid-cols-2">
+              <label className="space-y-1 text-sm">
+                <span className="text-[var(--muted)]">Digest time (local)</span>
+                <Input
+                  required
+                  type="time"
+                  name="digest_time_local"
+                  defaultValue={settings.digest_time_local}
+                />
+              </label>
 
-          <label className="space-y-1 text-sm">
-            <span className="text-[var(--ink-muted)]">Timezone</span>
-            <select
-              required
-              name="timezone"
-              defaultValue={timezoneDefault}
-              className="w-full rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 outline-none ring-[var(--accent)] focus:ring"
-            >
-              {timezoneOptions.map((timezone) => (
-                <option key={timezone} value={timezone}>
-                  {timezone}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+              <label className="space-y-1 text-sm">
+                <span className="text-[var(--muted)]">Timezone</span>
+                <Select required name="timezone" defaultValue={timezoneDefault}>
+                  {timezoneOptions.map((timezone) => (
+                    <option key={timezone} value={timezone}>
+                      {timezone}
+                    </option>
+                  ))}
+                </Select>
+              </label>
+            </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="submit"
-            className="rounded-md bg-[var(--accent)] px-3 py-2 text-sm font-medium text-white hover:opacity-95"
-          >
-            Save settings
-          </button>
-          <p className="text-xs text-[var(--ink-muted)]">
-            Browser timezone detected: {browserTimezone || "UTC"}
-          </p>
-        </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button type="submit" variant="primary">
+                Save settings
+              </Button>
+              <p className="text-xs text-[var(--muted)]">
+                Browser timezone detected: {browserTimezone || "UTC"}
+              </p>
+            </div>
+          </CardHeader>
+        </Card>
       </form>
 
-      <form
-        action={sendTestDigestAction}
-        className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-5"
-      >
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h2 className="text-sm font-medium text-[var(--ink)]">Test digest</h2>
-            <p className="mt-1 text-sm text-[var(--ink-muted)]">
-              Sends a one-off digest email using your current settings.
-            </p>
-          </div>
-          <button
-            type="submit"
-            className="rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
-          >
-            Send test digest
-          </button>
-        </div>
+      <form action={sendTestDigestAction}>
+        <Card className="bg-[rgba(17,26,45,0.92)]">
+          <CardHeader className="flex flex-wrap items-center justify-between gap-3 p-5">
+            <div>
+              <CardTitle className="text-base">Send test digest</CardTitle>
+              <CardDescription className="mt-1">
+                Send a one-off digest email immediately using your current settings.
+              </CardDescription>
+            </div>
+            <Button type="submit" variant="secondary">
+              Send test digest
+            </Button>
+          </CardHeader>
+        </Card>
       </form>
     </div>
   );

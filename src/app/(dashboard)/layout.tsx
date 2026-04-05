@@ -1,3 +1,5 @@
+import { NoSlipLogo } from "@/components/brand/NoSlipLogo";
+import { Button } from "@/components/ui/Button";
 import { requireUser } from "@/lib/auth";
 
 import { DashboardTabs } from "./DashboardTabs";
@@ -12,24 +14,29 @@ export default async function DashboardLayout({
 
   return (
     <div className="mx-auto min-h-screen w-full max-w-6xl px-6 py-8">
-      <header className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-[var(--line)] bg-[var(--surface)] px-5 py-4">
-        <div className="space-y-1">
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-[var(--ink-muted)]">
-            Follow-up OS
-          </p>
-          <p className="text-xs text-[var(--ink-muted)]">Signed in as {user.email}</p>
-        </div>
+      <header className="mb-6 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[rgba(17,26,45,0.9)] px-5 py-4 shadow-[var(--shadow-sm)] backdrop-blur">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <NoSlipLogo className="h-8" />
+            <div className="space-y-0.5">
+              <p className="text-sm font-semibold text-[var(--text)]">NoSlip</p>
+              <p className="text-xs text-[var(--muted)]">
+                NoSlip — daily follow-up digest + drafts so nothing falls through.
+              </p>
+            </div>
+          </div>
 
-        <div className="flex items-center gap-3">
-          <DashboardTabs />
-          <form action={signOutAction}>
-            <button
-              type="submit"
-              className="rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-1.5 text-sm text-[var(--ink-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--ink)]"
-            >
-              Sign out
-            </button>
-          </form>
+          <div className="flex items-center gap-3">
+            <DashboardTabs />
+            <p className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 text-xs text-[var(--muted)]">
+              {user.email}
+            </p>
+            <form action={signOutAction}>
+              <Button type="submit" variant="ghost" size="sm">
+                Sign out
+              </Button>
+            </form>
+          </div>
         </div>
       </header>
 

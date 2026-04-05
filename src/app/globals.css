@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+:root {
+  --app-bg: #f7f4ec;
+  --surface: #fffdf8;
+  --surface-muted: #f1ede3;
+  --ink: #1d2a22;
+  --ink-muted: #5d6b62;
+  --line: #d4cdc0;
+  --accent: #0f6a4a;
+  --accent-soft: #d8ede4;
+}
+
+@theme inline {
+  --font-sans: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background:
+    radial-gradient(circle at top right, #e7f6ef 0, transparent 35%),
+    radial-gradient(circle at bottom left, #f9e8d2 0, transparent 40%),
+    var(--app-bg);
+}

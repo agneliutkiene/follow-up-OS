@@ -12,10 +12,10 @@
 
 .sceneBackground {
   background:
-    radial-gradient(780px 540px at 18% 58%, rgba(0, 124, 255, 0.92) 0%, rgba(0, 124, 255, 0.68) 24%, rgba(0, 124, 255, 0.36) 42%, rgba(0, 124, 255, 0.12) 56%, rgba(0, 124, 255, 0) 72%),
-    radial-gradient(1480px 960px at 76% 64%, rgba(237, 198, 250, 0.95) 0%, rgba(237, 198, 250, 0.78) 36%, rgba(237, 198, 250, 0.5) 60%, rgba(237, 198, 250, 0.2) 78%, rgba(237, 198, 250, 0) 100%),
-    radial-gradient(980px 620px at 86% 22%, rgba(214, 175, 243, 0.7) 0%, rgba(214, 175, 243, 0.34) 40%, rgba(214, 175, 243, 0) 72%),
-    linear-gradient(180deg, #02040b 0%, #050a18 14%, #4a549d 30%, #9b96db 48%, #c8b2ea 66%, #e2c3f0 82%, #f2cff5 100%);
+    radial-gradient(640px 460px at 16% 58%, rgba(0, 124, 255, 0.9) 0%, rgba(0, 124, 255, 0.66) 28%, rgba(0, 124, 255, 0.34) 46%, rgba(0, 124, 255, 0.1) 60%, rgba(0, 124, 255, 0) 74%),
+    radial-gradient(1320px 860px at 84% 30%, rgba(233, 193, 247, 0.88) 0%, rgba(233, 193, 247, 0.62) 40%, rgba(233, 193, 247, 0.26) 64%, rgba(233, 193, 247, 0.08) 78%, rgba(233, 193, 247, 0) 90%),
+    radial-gradient(980px 640px at 56% 76%, rgba(214, 182, 241, 0.26) 0%, rgba(214, 182, 241, 0.1) 42%, rgba(214, 182, 241, 0) 78%),
+    linear-gradient(180deg, #02040b 0%, #040714 12%, #2a2e63 24%, #7a74bc 38%, #b29fe3 54%, #d0b7ec 70%, #e2c4f0 84%, #efd1f4 94%, #f7daf8 100%);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -211,7 +211,7 @@
   max-width: 780px;
   height: auto;
   transform: translateX(24px) scale(1.15);
-  filter: drop-shadow(0 30px 80px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 24px 56px rgba(0, 0, 0, 0.24));
   box-shadow: none;
 }
 

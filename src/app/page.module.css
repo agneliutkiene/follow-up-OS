@@ -13,7 +13,11 @@
 .heroSection {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, #a99af0 0%, #d8c8ff 45%, #f2d6e6 100%);
+  background:
+    radial-gradient(980px 640px at 74% 24%, rgba(140, 198, 255, 0.78) 0%, rgba(140, 198, 255, 0) 60%),
+    radial-gradient(1080px 720px at 18% 84%, rgba(255, 172, 218, 0.8) 0%, rgba(255, 172, 218, 0) 62%),
+    linear-gradient(180deg, rgba(7, 10, 18, 0.9) 0%, rgba(7, 10, 18, 0) 28%),
+    linear-gradient(180deg, #a99af0 0%, #d8c8ff 45%, #f2d6e6 100%);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -92,7 +96,7 @@
   font-size: 12px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 6px 12px rgba(3, 6, 16, 0.26);
+  box-shadow: none;
 }
 
 .primaryButtonNav:hover {
@@ -112,7 +116,7 @@
 
 .heroCopy {
   max-width: 500px;
-  background: rgba(7, 10, 18, 0.25);
+  background: transparent;
   border-radius: 14px;
   padding: 20px;
 }
@@ -155,7 +159,7 @@
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 6px 12px rgba(3, 6, 16, 0.26);
+  box-shadow: none;
 }
 
 .primaryButtonHero:hover {

@@ -205,138 +205,140 @@ function Sparkline({ seed }: { seed: number }) {
 export default function HomePage() {
   return (
     <div className={styles.pageRoot}>
-      <section className={styles.heroSection}>
-        <header className={styles.navbarWrap}>
-          <div className={styles.container}>
-            <nav className={styles.navbar} aria-label="Top">
-              <Link href="/" className={styles.brand} aria-label="NoSlip home">
-                <Image src="/icon.svg" alt="" width={18} height={18} aria-hidden />
-                <span>NoSlip</span>
-              </Link>
+      <div className={styles.sceneBackground}>
+        <section className={styles.heroSection}>
+          <header className={styles.navbarWrap}>
+            <div className={styles.container}>
+              <nav className={styles.navbar} aria-label="Top">
+                <Link href="/" className={styles.brand} aria-label="NoSlip home">
+                  <Image src="/icon.svg" alt="" width={18} height={18} aria-hidden />
+                  <span>NoSlip</span>
+                </Link>
 
-              <div className={styles.navCenter}>
-                <a href="#product" className={styles.navLink}>
-                  Product
-                </a>
-                <a href="#pricing" className={styles.navLink}>
-                  Pricing
-                </a>
-                <a href="#faq" className={styles.navLink}>
-                  FAQ
-                </a>
-              </div>
+                <div className={styles.navCenter}>
+                  <a href="#product" className={styles.navLink}>
+                    Product
+                  </a>
+                  <a href="#pricing" className={styles.navLink}>
+                    Pricing
+                  </a>
+                  <a href="#faq" className={styles.navLink}>
+                    FAQ
+                  </a>
+                </div>
 
-              <div className={styles.navCta}>
-                <Link href="/#pricing" className={styles.primaryButtonNav}>
+                <div className={styles.navCta}>
+                  <Link href="/#pricing" className={styles.primaryButtonNav}>
+                    Get NoSlip
+                  </Link>
+                </div>
+              </nav>
+            </div>
+          </header>
+
+          <div className={`${styles.container} ${styles.heroGrid}`}>
+            <div className={styles.heroCopy}>
+              <h1 className={styles.heroTitle}>
+                Never miss a
+                <br />
+                follow-up
+                <br />
+                again.
+              </h1>
+              <p className={styles.heroSubtitle}>
+                Daily digest + drafts so leads, invoices, and clients never slip.
+              </p>
+
+              <div className={styles.heroActions}>
+                <Link href="/#pricing" className={styles.primaryButtonHero}>
                   Get NoSlip
                 </Link>
+                <a href="#how" className={styles.learnLink}>
+                  <span className={styles.learnIcon} aria-hidden>
+                    ↗
+                  </span>
+                  Learn how to start
+                </a>
               </div>
-            </nav>
-          </div>
-        </header>
+            </div>
 
-        <div className={`${styles.container} ${styles.heroGrid}`}>
-          <div className={styles.heroCopy}>
-            <h1 className={styles.heroTitle}>
-              Never miss a
-              <br />
-              follow-up
-              <br />
-              again.
-            </h1>
-            <p className={styles.heroSubtitle}>
-              Daily digest + drafts so leads, invoices, and clients never slip.
-            </p>
-
-            <div className={styles.heroActions}>
-              <Link href="/#pricing" className={styles.primaryButtonHero}>
-                Get NoSlip
-              </Link>
-              <a href="#how" className={styles.learnLink}>
-                <span className={styles.learnIcon} aria-hidden>
-                  ↗
-                </span>
-                Learn how to start
-              </a>
+            <div className={styles.heroVisual}>
+              <div className={styles.heroArt}>
+                <img src="/hero-3d.png" alt="NoSlip daily digest preview" className={styles.heroImage} />
+              </div>
             </div>
           </div>
 
-          <div className={styles.heroVisual}>
-            <div className={styles.heroArt}>
-              <img src="/hero-3d.png" alt="NoSlip daily digest preview" className={styles.heroImage} />
-            </div>
-          </div>
-        </div>
-
-        <div id="product" className={`${styles.container} ${styles.featurePanelWrap}`}>
-          <div className={styles.featurePanel}>
-            <div className={styles.featuresGrid}>
-              {features.map((feature) => (
-                <article key={feature.title} className={styles.featureItem}>
-                  <div className={styles.featureIconWrap}>
-                    <FeatureIcon />
-                  </div>
-                  <h3 className={styles.featureTitle}>{feature.title}</h3>
-                  <p className={styles.featureDescription}>{feature.description}</p>
-                </article>
-              ))}
-            </div>
-
-            <div className={styles.numbersStrip}>
-              <p className={styles.numbersLabel}>We in numbers</p>
-              <div className={styles.metricsGrid}>
-                {metrics.map((metric) => (
-                  <div key={metric.value} className={styles.metricCard}>
-                    <p className={styles.metricValue}>{metric.value}</p>
-                    <p className={styles.metricLabel}>{metric.label}</p>
-                  </div>
+          <div id="product" className={`${styles.container} ${styles.featurePanelWrap}`}>
+            <div className={styles.featurePanel}>
+              <div className={styles.featuresGrid}>
+                {features.map((feature) => (
+                  <article key={feature.title} className={styles.featureItem}>
+                    <div className={styles.featureIconWrap}>
+                      <FeatureIcon />
+                    </div>
+                    <h3 className={styles.featureTitle}>{feature.title}</h3>
+                    <p className={styles.featureDescription}>{feature.description}</p>
+                  </article>
                 ))}
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section className={styles.tableSection}>
-        <div className={styles.container}>
-          <h2 className={styles.tableHeading}>See your follow-ups at a glance</h2>
-
-          <div className={styles.tableCard}>
-            <div className={styles.tableScroll}>
-              <table className={styles.digestTable}>
-                <thead>
-                  <tr>
-                    <th>Status</th>
-                    <th>Thread / Contact</th>
-                    <th>Next follow-up</th>
-                    <th>Draft preview</th>
-                    <th>Action</th>
-                    <th>Trend</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((row, index) => (
-                    <tr key={`${row.status}-${row.threadContact}`}>
-                      <td>{row.status}</td>
-                      <td>{row.threadContact}</td>
-                      <td>{row.nextFollowup}</td>
-                      <td className={styles.draftCell}>{row.draft}</td>
-                      <td>
-                        <button type="button" className={styles.tableActionButton}>
-                          {row.action}
-                        </button>
-                      </td>
-                      <td>
-                        <Sparkline seed={index} />
-                      </td>
-                    </tr>
+              <div className={styles.numbersStrip}>
+                <p className={styles.numbersLabel}>We in numbers</p>
+                <div className={styles.metricsGrid}>
+                  {metrics.map((metric) => (
+                    <div key={metric.value} className={styles.metricCard}>
+                      <p className={styles.metricValue}>{metric.value}</p>
+                      <p className={styles.metricLabel}>{metric.label}</p>
+                    </div>
                   ))}
-                </tbody>
-              </table>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section className={styles.tableSection}>
+          <div className={styles.container}>
+            <h2 className={styles.tableHeading}>See your follow-ups at a glance</h2>
+
+            <div className={styles.tableCard}>
+              <div className={styles.tableScroll}>
+                <table className={styles.digestTable}>
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Thread / Contact</th>
+                      <th>Next follow-up</th>
+                      <th>Draft preview</th>
+                      <th>Action</th>
+                      <th>Trend</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((row, index) => (
+                      <tr key={`${row.status}-${row.threadContact}`}>
+                        <td>{row.status}</td>
+                        <td>{row.threadContact}</td>
+                        <td>{row.nextFollowup}</td>
+                        <td className={styles.draftCell}>{row.draft}</td>
+                        <td>
+                          <button type="button" className={styles.tableActionButton}>
+                            {row.action}
+                          </button>
+                        </td>
+                        <td>
+                          <Sparkline seed={index} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <section id="pricing" className={styles.pricingSection}>
         <div className={styles.container}>

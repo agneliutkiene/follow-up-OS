@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="520" viewBox="0 0 720 520" fill="none" role="img" aria-labelledby="t d">
+  <title id="t">NoSlip hero 3D placeholder</title>
+  <desc id="d">Abstract stacked UI cards and panels with gradients and shadows</desc>
+
+  <defs>
+    <linearGradient id="bgGrad" x1="108" y1="64" x2="602" y2="468" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111827"/>
+      <stop offset="1" stop-color="#1E1B4B"/>
+    </linearGradient>
+    <linearGradient id="panelA" x1="262" y1="76" x2="518" y2="358" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2B3A67"/>
+      <stop offset="1" stop-color="#1E2A4D"/>
+    </linearGradient>
+    <linearGradient id="panelB" x1="224" y1="146" x2="475" y2="356" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#374A82"/>
+      <stop offset="1" stop-color="#243050"/>
+    </linearGradient>
+    <linearGradient id="cardGlow" x1="90" y1="370" x2="304" y2="490" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A78BFA" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#60A5FA" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="720" height="520" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="22" stdDeviation="18" flood-color="#05070F" flood-opacity="0.55"/>
+    </filter>
+    <filter id="softGlow" x="0" y="0" width="720" height="520" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <rect x="108" y="64" width="504" height="392" rx="28" fill="url(#bgGrad)" stroke="rgba(255,255,255,0.09)"/>
+
+  <g filter="url(#softGlow)" opacity="0.8">
+    <ellipse cx="520" cy="132" rx="72" ry="44" fill="#7C3AED"/>
+    <ellipse cx="240" cy="418" rx="96" ry="52" fill="#2563EB"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <path d="M402 118L542 92L582 282L442 312Z" fill="url(#panelA)"/>
+    <path d="M378 156L508 132L546 306L416 330Z" fill="url(#panelB)"/>
+
+    <rect x="168" y="326" width="208" height="126" rx="18" fill="#131C30" stroke="rgba(255,255,255,0.11)"/>
+    <rect x="184" y="346" width="116" height="10" rx="5" fill="rgba(148,163,184,0.35)"/>
+    <rect x="184" y="366" width="176" height="8" rx="4" fill="rgba(148,163,184,0.22)"/>
+    <rect x="184" y="382" width="148" height="8" rx="4" fill="rgba(148,163,184,0.18)"/>
+    <rect x="184" y="408" width="92" height="26" rx="13" fill="url(#cardGlow)"/>
+
+    <rect x="447" y="138" width="84" height="84" rx="16" fill="#0F172A" stroke="rgba(255,255,255,0.12)"/>
+    <circle cx="489" cy="176" r="22" fill="#111C35"/>
+    <circle cx="489" cy="176" r="15" fill="none" stroke="#60A5FA" stroke-width="3"/>
+    <path d="M480 176l6 6 11-12" stroke="#A78BFA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="426" y="246" width="134" height="14" rx="7" fill="rgba(148,163,184,0.2)"/>
+    <rect x="426" y="246" width="96" height="14" rx="7" fill="url(#bar)"/>
+    <rect x="426" y="270" width="112" height="10" rx="5" fill="rgba(148,163,184,0.28)"/>
+    <rect x="426" y="288" width="80" height="10" rx="5" fill="rgba(148,163,184,0.18)"/>
+  </g>
+
+  <g>
+    <rect x="154" y="132" width="188" height="134" rx="18" fill="#0F172A" stroke="rgba(255,255,255,0.11)"/>
+    <rect x="172" y="152" width="88" height="10" rx="5" fill="rgba(148,163,184,0.32)"/>
+    <rect x="172" y="172" width="152" height="8" rx="4" fill="rgba(148,163,184,0.2)"/>
+    <rect x="172" y="188" width="138" height="8" rx="4" fill="rgba(148,163,184,0.16)"/>
+    <rect x="172" y="210" width="76" height="24" rx="12" fill="rgba(124,58,237,0.28)" stroke="rgba(167,139,250,0.45)"/>
+    <path d="M190 222l5 5 10-10" stroke="#A78BFA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <rect x="108" y="64" width="504" height="392" rx="28" stroke="rgba(255,255,255,0.13)"/>
+</svg>

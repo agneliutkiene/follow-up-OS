@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="140" viewBox="0 0 1120 140" fill="none" role="img" aria-labelledby="lt ld">
+  <title id="lt">Logo strip placeholder</title>
+  <desc id="ld">Placeholder partner logos for NoSlip homepage</desc>
+
+  <rect x="0" y="0" width="1120" height="140" rx="16" fill="rgba(15,23,42,0.45)"/>
+
+  <g fill="#CBD5E1" opacity="0.9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="20" font-weight="600">
+    <text x="70" y="78">Northline Studio</text>
+    <text x="315" y="78">Pine &amp; Pixel</text>
+    <text x="525" y="78">Atlas Ops</text>
+    <text x="700" y="78">Waveboard</text>
+    <text x="885" y="78">Mosaic Team</text>
+  </g>
+
+  <g stroke="rgba(255,255,255,0.16)">
+    <line x1="250" y1="42" x2="250" y2="102"/>
+    <line x1="475" y1="42" x2="475" y2="102"/>
+    <line x1="665" y1="42" x2="665" y2="102"/>
+    <line x1="850" y1="42" x2="850" y2="102"/>
+  </g>
+</svg>

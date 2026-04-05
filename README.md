@@ -16,6 +16,9 @@ Follow-up OS is a lightweight follow-up tracker for solopreneurs so no lead, inv
   - Row actions: Open, Mark done, Snooze 2d, Snooze 7d
 - Contacts: `/contacts`
   - Create + edit contacts
+- Settings: `/settings`
+  - Daily digest enable/disable, local send time, timezone
+  - Send test digest immediately
 - Thread detail: `/threads/[id]`
   - Edit title/type/status/next follow-up/draft
   - Add touches (activity log)
@@ -39,19 +42,26 @@ Follow-up OS is a lightweight follow-up tracker for solopreneurs so no lead, inv
 
 ## Database
 
-Migration file:
+Migration files:
 
 - `supabase/migrations/20260405131500_init_follow_up_os.sql`
+- `supabase/migrations/20260405174000_user_settings.sql`
+- `supabase/migrations/20260405190000_digest_logs.sql`
 
 Includes:
 
 - Tables: `contacts`, `threads`, `touches`
+- Additional tables: `user_settings`, `digest_logs`
 - Required indexes:
   - `threads(user_id, next_followup_at)`
   - `threads(user_id, status)`
   - `threads(user_id, contact_id)`
-- RLS enabled on all tables
+- Digest delivery:
+  - Protected cron endpoint: `/api/cron/digest`
+  - Shared-secret header required: `x-cron-secret`
+- RLS enabled on user-facing tables: `contacts`, `threads`, `touches`, `user_settings`
 - Policies: user can only CRUD own rows (`user_id = auth.uid()`)
+- `digest_logs` is server-written via service role key (no RLS in MVP)
 
 ## Setup
 
@@ -71,6 +81,8 @@ Includes:
 1. Open Supabase project -> SQL Editor
 2. Paste contents of:
    - `supabase/migrations/20260405131500_init_follow_up_os.sql`
+   - `supabase/migrations/20260405174000_user_settings.sql`
+   - `supabase/migrations/20260405190000_digest_logs.sql`
 3. Run the SQL
 
 ### Option B: Supabase CLI
@@ -102,6 +114,10 @@ Set values:
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
+RESEND_API_KEY=...
+DIGEST_FROM_EMAIL="Follow-up OS <noreply@yourdomain.com>"
+PUBLIC_BASE_URL="http://localhost:3000"
+DIGEST_CRON_SECRET=...
 DEMO_USER_EMAIL=demo@followupos.local
 DEMO_USER_PASSWORD=DemoPass123
 ```
@@ -109,7 +125,8 @@ DEMO_USER_PASSWORD=DemoPass123
 Notes:
 
 - `NEXT_PUBLIC_*` vars are used by the web app.
-- `SUPABASE_SERVICE_ROLE_KEY` is used only by `scripts/seed.ts` on the server side.
+- `SUPABASE_SERVICE_ROLE_KEY` is used only in server contexts (`scripts/seed.ts`, digest cron route, and settings test-digest action).
+- `RESEND_API_KEY` is server-only (never expose in client code).
 - Do not expose service role key in client code.
 
 ## 5) Install and run
@@ -139,6 +156,20 @@ Then log in with:
 
 - `DEMO_USER_EMAIL`
 - `DEMO_USER_PASSWORD`
+
+## 7) Test daily digest locally
+
+From `/settings`, click **Send test digest** to send a digest immediately to the signed-in user email.
+
+You can also trigger the cron route directly:
+
+```bash
+curl -H "x-cron-secret: $DIGEST_CRON_SECRET" \
+  "http://localhost:3000/api/cron/digest?force=1"
+```
+
+- `force=1` sends to all users with `digest_enabled=true`.
+- Without `force=1`, the route only sends users that are currently due based on `digest_time_local` and `timezone`.
 
 ## Useful scripts
 

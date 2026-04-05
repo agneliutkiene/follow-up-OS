@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { requireUser } from "@/lib/auth";
+import { sendDigestForUser } from "@/lib/digest";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 function toText(value: FormDataEntryValue | null) {
@@ -56,8 +57,18 @@ export async function saveSettingsAction(formData: FormData) {
 }
 
 export async function sendTestDigestAction() {
-  await requireUser();
+  const user = await requireUser();
+  const result = await sendDigestForUser(user.id, { force: true });
 
   revalidatePath("/settings");
-  settingsRedirectWithMessage("Test digest queued (stub). Prompt #2 will wire sending.");
+
+  if (result.status === "error") {
+    settingsRedirectWithError(result.errorMessage ?? "Failed to send test digest.");
+  }
+
+  settingsRedirectWithMessage(
+    result.status === "sent"
+      ? `Test digest sent to ${result.email}.`
+      : result.reason ?? "Test digest skipped.",
+  );
 }

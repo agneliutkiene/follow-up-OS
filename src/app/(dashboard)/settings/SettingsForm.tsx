@@ -149,7 +149,7 @@ export function SettingsForm({
           <div>
             <h2 className="text-sm font-medium text-[var(--ink)]">Test digest</h2>
             <p className="mt-1 text-sm text-[var(--ink-muted)]">
-              Sends a one-off test digest using your current settings (stub for now).
+              Sends a one-off digest email using your current settings.
             </p>
           </div>
           <button

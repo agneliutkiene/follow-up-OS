@@ -93,13 +93,16 @@
   height: 38px;
   padding: 0 16px;
   border-radius: 2px;
-  border: none;
+  border: 0 !important;
   background: #0b0f1a;
   color: rgba(255, 255, 255, 0.92);
   font-size: 12px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: none;
+  box-shadow: none !important;
+  outline: none !important;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .primaryButtonNav:hover {
@@ -157,13 +160,16 @@
   min-width: 132px;
   padding: 0 18px;
   border-radius: 2px;
-  border: none;
+  border: 0 !important;
   background: #0b0f1a;
   color: rgba(255, 255, 255, 0.92);
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: none;
+  box-shadow: none !important;
+  outline: none !important;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .primaryButtonHero:hover {
@@ -225,22 +231,14 @@
   position: relative;
   overflow: hidden;
   border-radius: 2px;
-  border: 1px solid rgba(74, 86, 158, 0.45);
+  border: none;
   background: linear-gradient(180deg, #04060c 0%, #03050a 100%);
   padding: 34px 32px 32px;
-  box-shadow:
-    0 4px 10px rgba(2, 2, 8, 0.18),
-    inset 0 0 0 1px rgba(95, 88, 170, 0.14);
+  box-shadow: 0 4px 10px rgba(2, 2, 8, 0.18);
 }
 
 .featurePanel::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: rgba(140, 120, 255, 0.2);
+  content: none;
 }
 
 .featuresGrid {
@@ -260,7 +258,7 @@
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  border: 1px solid rgba(30, 132, 255, 0.45);
+  border: none;
   background: transparent;
   display: inline-flex;
   align-items: center;
@@ -290,11 +288,11 @@
 }
 
 .numbersStrip {
-  margin: 22px -32px -32px;
+  margin: 16px -32px -32px;
   border-top: none;
   border-radius: 0;
   background: linear-gradient(180deg, #1b0f3f 0%, #1a0e3a 100%);
-  padding: 14px 32px;
+  padding: 10px 32px;
 }
 
 .numbersLabel {
@@ -307,10 +305,10 @@
 }
 
 .metricsGrid {
-  margin-top: 10px;
+  margin-top: 8px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 12px;
 }
 
 .metricCard {
@@ -322,7 +320,7 @@
 .metricValue {
   margin: 0;
   color: #ffffff;
-  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+  font-size: clamp(1.35rem, 2.1vw, 2rem);
   line-height: 1;
   font-weight: 700;
 }

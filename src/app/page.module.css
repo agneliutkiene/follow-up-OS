@@ -1,7 +1,7 @@
 .pageRoot {
   color: #f3f5ff;
   font-family: Inter, "Segoe UI", Arial, sans-serif;
-  background: #050816;
+  background: #e9daff;
 }
 
 .container {
@@ -11,12 +11,7 @@
 }
 
 .sceneBackground {
-  background:
-    radial-gradient(760px 520px at 18% 18%, rgba(59, 145, 255, 0.8) 0%, rgba(59, 145, 255, 0.52) 32%, rgba(59, 145, 255, 0.2) 52%, rgba(59, 145, 255, 0) 72%),
-    radial-gradient(1120px 720px at 80% 22%, rgba(198, 186, 244, 0.56) 0%, rgba(198, 186, 244, 0.28) 44%, rgba(198, 186, 244, 0.08) 62%, rgba(198, 186, 244, 0) 78%),
-    linear-gradient(180deg, #6f9de9 0%, #7298e4 22%, #7a96df 40%, #8798de 56%, #939ade 68%, #a19fe1 80%, #b0a6e5 90%, #bfaee9 100%);
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: #e9daff;
 }
 
 .heroSection {

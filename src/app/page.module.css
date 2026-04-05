@@ -12,9 +12,10 @@
 
 .sceneBackground {
   background:
-    radial-gradient(circle at 84% 8%, rgba(205, 191, 255, 0.82) 0%, rgba(205, 191, 255, 0) 54%),
-    radial-gradient(circle at 14% 10%, rgba(55, 114, 237, 0.62) 0%, rgba(55, 114, 237, 0) 56%),
-    linear-gradient(180deg, #02040b 0%, #0b1230 22%, #2f3f88 44%, #7f87d8 62%, #b7a7ee 78%, #dfc3ec 90%, #f2d6e6 100%);
+    radial-gradient(1100px 700px at 86% 10%, rgba(205, 191, 255, 0.96) 0%, rgba(205, 191, 255, 0.88) 18%, rgba(205, 191, 255, 0.56) 34%, rgba(205, 191, 255, 0) 62%),
+    radial-gradient(980px 640px at 14% 12%, rgba(55, 114, 237, 0.72) 0%, rgba(55, 114, 237, 0.44) 24%, rgba(55, 114, 237, 0) 58%),
+    radial-gradient(760px 460px at 52% 42%, rgba(149, 140, 242, 0.3) 0%, rgba(149, 140, 242, 0) 66%),
+    linear-gradient(180deg, #02040b 0%, #030713 14%, #08132f 26%, #1e3273 40%, #5c71c1 56%, #9992df 72%, #cab2ed 86%, #f2d6e6 100%);
 }
 
 .heroSection {

@@ -11,7 +11,10 @@
 }
 
 .sceneBackground {
-  background: linear-gradient(180deg, #a99af0 0%, #cbb8ff 35%, #e7d3f2 70%, #f2d6e6 100%);
+  background:
+    radial-gradient(circle at 14% 8%, rgba(55, 114, 237, 0.8) 0%, rgba(55, 114, 237, 0) 48%),
+    radial-gradient(circle at 62% 24%, rgba(202, 171, 255, 0.35) 0%, rgba(202, 171, 255, 0) 64%),
+    linear-gradient(180deg, #05070f 0%, #1c2350 18%, #5f66bc 34%, #aa9bed 49%, #cbb8ff 67%, #e7d3f2 84%, #f2d6e6 100%);
 }
 
 .heroSection {

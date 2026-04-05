@@ -13,12 +13,7 @@
 .heroSection {
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(980px 640px at 72% 22%, rgba(170, 220, 255, 0.95) 0%, rgba(170, 220, 255, 0) 60%),
-    radial-gradient(1100px 740px at 18% 82%, rgba(255, 175, 220, 0.85) 0%, rgba(255, 175, 220, 0) 62%),
-    radial-gradient(820px 620px at 55% 58%, rgba(190, 150, 255, 0.4) 0%, rgba(190, 150, 255, 0) 70%),
-    linear-gradient(180deg, #070a12 0%, #070a12 26%, rgba(7, 10, 18, 0.1) 58%, rgba(7, 10, 18, 0) 100%),
-    #0a0b12;
+  background: linear-gradient(180deg, #a99af0 0%, #d8c8ff 45%, #f2d6e6 100%);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -26,7 +21,14 @@
 .navbarWrap {
   position: relative;
   z-index: 5;
-  padding-top: 8px;
+  height: 140px;
+  background: linear-gradient(180deg, rgba(7, 10, 18, 0.95) 0%, rgba(7, 10, 18, 0) 100%);
+}
+
+.navbarWrap .container {
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
 }
 
 .navbar {
@@ -110,6 +112,9 @@
 
 .heroCopy {
   max-width: 500px;
+  background: rgba(7, 10, 18, 0.25);
+  border-radius: 14px;
+  padding: 20px;
 }
 
 .heroTitle {
@@ -187,6 +192,9 @@
 
 .heroArt {
   background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
 }
 
 .heroImage {
@@ -194,7 +202,7 @@
   max-width: 680px;
   height: auto;
   transform: translateX(10px) scale(1.08);
-  filter: drop-shadow(0 30px 80px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 30px 80px rgba(0, 0, 0, 0.35));
   box-shadow: none;
 }
 
@@ -205,11 +213,23 @@
 }
 
 .featurePanel {
+  position: relative;
+  overflow: hidden;
   border-radius: 17px;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(0, 0, 0, 0.72);
+  background: #070a12;
   padding: 32px;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+}
+
+.featurePanel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 7px;
+  background: linear-gradient(90deg, rgba(120, 80, 255, 0.35), rgba(80, 160, 255, 0.25));
 }
 
 .featuresGrid {
@@ -219,10 +239,10 @@
 }
 
 .featureItem {
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
-  padding: 16px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 8px 2px;
 }
 
 .featureIconWrap {
@@ -303,7 +323,7 @@
 }
 
 .tableSection {
-  background: linear-gradient(180deg, #f2c8df 0%, #e5c9f3 45%, #d8d2ff 100%);
+  background: linear-gradient(180deg, #a99af0 0%, #d8c8ff 45%, #f2d6e6 100%);
   padding: 62px 0 72px;
 }
 

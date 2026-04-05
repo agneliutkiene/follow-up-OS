@@ -12,9 +12,9 @@
 
 .sceneBackground {
   background:
-    radial-gradient(circle at 14% 8%, rgba(55, 114, 237, 0.8) 0%, rgba(55, 114, 237, 0) 48%),
-    radial-gradient(circle at 62% 24%, rgba(202, 171, 255, 0.35) 0%, rgba(202, 171, 255, 0) 64%),
-    linear-gradient(180deg, #05070f 0%, #1c2350 18%, #5f66bc 34%, #aa9bed 49%, #cbb8ff 67%, #e7d3f2 84%, #f2d6e6 100%);
+    radial-gradient(circle at 84% 8%, rgba(255, 190, 225, 0.62) 0%, rgba(255, 190, 225, 0) 44%),
+    radial-gradient(circle at 14% 10%, rgba(55, 114, 237, 0.78) 0%, rgba(55, 114, 237, 0) 48%),
+    linear-gradient(180deg, #010207 0%, #060b1c 16%, #1b2451 30%, #5f67be 46%, #b9a8f1 66%, #e5c9f0 84%, #f2d6e6 100%);
 }
 
 .heroSection {
@@ -26,8 +26,8 @@
 .navbarWrap {
   position: relative;
   z-index: 5;
-  height: 140px;
-  background: linear-gradient(180deg, rgba(7, 10, 18, 0.95) 0%, rgba(7, 10, 18, 0) 100%);
+  height: 156px;
+  background: linear-gradient(180deg, rgba(2, 1, 5, 0.98) 0%, rgba(7, 10, 18, 0) 100%);
 }
 
 .navbarWrap .container {
@@ -226,7 +226,7 @@
   background: linear-gradient(180deg, #04060c 0%, #03050a 100%);
   padding: 34px 32px 32px;
   box-shadow:
-    0 44px 120px rgba(1, 2, 8, 0.72),
+    0 4px 10px rgba(2, 2, 8, 0.18),
     inset 0 0 0 1px rgba(95, 88, 170, 0.14);
 }
 
